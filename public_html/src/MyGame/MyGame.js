@@ -20,16 +20,16 @@ function MyGame() {
     // The camera to view the scene
     this.mCamera = null;
 
-    this.mMsg = null;
-    this.mShapeMsg = null;
+    //this.mMsg = null;
+    //this.mShapeMsg = null;
 
-    this.mAllObjs = null;
-    this.mBounds = null;
-    this.mCollisionInfos = [];
+    //this.mAllObjs = null;
+    //this.mBounds = null;
+    //this.mCollisionInfos = [];
     this.mHero = null;
     
-    this.mCurrentObj = 0;
-    this.mTarget = null;
+    //this.mCurrentObj = 0;
+    //this.mTarget = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -61,6 +61,8 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
       
     this.mHero = new Hero(this.kMinionSprite);
+    
+    /*
     this.mAllObjs = new GameObjectSet();
     
     this.createBounds();
@@ -85,6 +87,7 @@ MyGame.prototype.initialize = function () {
     this.mShapeMsg.setColor([0, 0, 0, 1]);
     this.mShapeMsg.getXform().setPosition(5, 73);
     this.mShapeMsg.setTextHeight(2.5);
+    */
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -95,73 +98,85 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
     
-    this.mAllObjs.draw(this.mCamera);
+    this.mHero.draw(this.mCamera);
+    
+    //this.mAllObjs.draw(this.mCamera);
     
     // for now draw these ...
     /*for (var i = 0; i<this.mCollisionInfos.length; i++) 
         this.mCollisionInfos[i].draw(this.mCamera); */
-    this.mCollisionInfos = []; 
+    //this.mCollisionInfos = []; 
     
-    this.mTarget.draw(this.mCamera);
-    this.mMsg.draw(this.mCamera);   // only draw status in the main camera
-    this.mShapeMsg.draw(this.mCamera);
+    //this.mTarget.draw(this.mCamera);
+    //this.mMsg.draw(this.mCamera);   // only draw status in the main camera
+    //this.mShapeMsg.draw(this.mCamera);
 };
 
+/*
 MyGame.prototype.increasShapeSize = function(obj, delta) {
     var s = obj.getRigidBody();
     var r = s.incShapeSizeBy(delta);
 };
+*/
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
 MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    var msg = "";   
+    //var msg = "";   
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)) {
-        gEngine.Physics.togglePositionalCorrection();
+        //gEngine.Physics.togglePositionalCorrection();
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
-        gEngine.Physics.toggleHasMotion();
+        //gEngine.Physics.toggleHasMotion();
     }
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) {
-        this.radomizeVelocity();
+        //this.radomizeVelocity();
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Left)) {
+        /*
         this.mCurrentObj -= 1;
         if (this.mCurrentObj < this.mFirstObject)
             this.mCurrentObj = this.mAllObjs.size() - 1;
+            */
     }            
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
+        /*
         this.mCurrentObj += 1;
         if (this.mCurrentObj >= this.mAllObjs.size())
             this.mCurrentObj = this.mFirstObject;
+            */
     }
 
-    var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
+    //var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
-        this.increasShapeSize(obj, MyGame.kBoundDelta);
+        //this.increasShapeSize(obj, MyGame.kBoundDelta);
     }
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
-        this.increasShapeSize(obj, -MyGame.kBoundDelta);
+        //this.increasShapeSize(obj, -MyGame.kBoundDelta);
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.G)) {
+        /*
         var x = 20 + Math.random() * 60;
         var y = 75;
         var t = Math.random() > 0.5;
         var m = new Minion(this.kMinionSprite, x, y, t);
         this.mAllObjs.addToSet(m);
+        */
     }
         
-    obj.keyControl();
-    obj.getRigidBody().userSetsState();
+    //obj.keyControl();
+    //obj.getRigidBody().userSetsState();
     
-    this.mAllObjs.update(this.mCamera);
+    //this.mAllObjs.update(this.mCamera);
     
-    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
-
+    //gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
+    
+    /*
+    
     var p = obj.getXform().getPosition();
     this.mTarget.getXform().setPosition(p[0], p[1]);
     msg += "  P(" + gEngine.Physics.getPositionalCorrection() + 
@@ -170,4 +185,5 @@ MyGame.prototype.update = function () {
     this.mMsg.setText(msg);
     
     this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
+    */
 };

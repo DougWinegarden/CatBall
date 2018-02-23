@@ -19,15 +19,22 @@ function Hero(spriteTexture) {
     this.mDye.getXform().setPosition(50, 40);
     this.mDye.getXform().setSize(3, 4);
     this.mDye.setElementPixelPositions(0, 120, 0, 180);
-    GameObject.call(this, this.mDye);
     
-    var r = new RigidRectangle(this.getXform(), 3, 4);
-    this.setRigidBody(r);
-    this.toggleDrawRenderable();
-    this.toggleDrawRigidShape();
+    this.mGameObject = new GameObject(this.mDye);
+    //GameObject.call(this, this.mDye);
+    
+    //var r = new RigidRectangle(this.mGameObject.getXform(), 3, 4);
+    //this.setRigidBody(r);
+    //this.toggleDrawRenderable();
+    //this.toggleDrawRigidShape();
 }
-gEngine.Core.inheritPrototype(Hero, WASDObj);
+//gEngine.Core.inheritPrototype(Hero, WASDObj);
 
 Hero.prototype.update = function () {
-    GameObject.prototype.update.call(this);
+    //GameObject.prototype.update.call(this);
+    this.mGameObject.update();
 };
+
+Hero.prototype.draw = function(aCamera){
+    this.mGameObject.draw(aCamera);
+}
