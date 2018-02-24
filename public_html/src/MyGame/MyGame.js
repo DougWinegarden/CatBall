@@ -50,44 +50,9 @@ MyGame.prototype.unloadScene = function () {
 };
 
 MyGame.prototype.initialize = function () {
-    // Step A: set up the cameras
-    this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
-    );
-    this.mCamera.setBackgroundColor([0.8, 0.8, 0.8, 1]);
-            // sets the background to gray
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
-      
-    this.mHero = new Hero(this.kMinionSprite);
+    var start = new IntroMenu();
+    gEngine.core.startScene(start);
     
-    /*
-    this.mAllObjs = new GameObjectSet();
-    
-    this.createBounds();
-    this.mFirstObject = this.mAllObjs.size();
-    this.mCurrentObj = this.mFirstObject;
-    
-    this.mAllObjs.addToSet(this.mHero);
-    var y = 70;
-    var x = 10;
-    for (var i = 1; i<=5; i++) {
-        var m = new Minion(this.kMinionSprite, x, y, ((i%2)!==0));
-        x += 20;
-        this.mAllObjs.addToSet(m);
-    }
-
-    this.mMsg = new FontRenderable("Status Message");
-    this.mMsg.setColor([0, 0, 0, 1]);
-    this.mMsg.getXform().setPosition(5, 7);
-    this.mMsg.setTextHeight(3);
-    
-    this.mShapeMsg = new FontRenderable("Shape");
-    this.mShapeMsg.setColor([0, 0, 0, 1]);
-    this.mShapeMsg.getXform().setPosition(5, 73);
-    this.mShapeMsg.setTextHeight(2.5);
-    */
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
