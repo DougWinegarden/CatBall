@@ -20,21 +20,76 @@ function Hero(spriteTexture) {
     this.mDye.getXform().setSize(3, 4);
     this.mDye.setElementPixelPositions(0, 120, 0, 180);
     
-    this.mGameObject = new GameObject(this.mDye);
-    //GameObject.call(this, this.mDye);
+    //this.mGameObject = new GameObject(this.mDye);
+    GameObject.call(this, this.mDye);
     
-    //var r = new RigidRectangle(this.mGameObject.getXform(), 3, 4);
+    //this.mRigidBody = new RigidRectangle(this.mGameObject.getXform(), 3, 4);
     //this.setRigidBody(r);
     //this.toggleDrawRenderable();
     //this.toggleDrawRigidShape();
+    
+    
+    
+    var r = new RigidRectangle(this.getXform(), 3, 4);
+    this.setRigidBody(r);
+    
+    this.jumping = false;
+    /*
+    this.toggleDrawRenderable();
+    this.toggleDrawRigidShape();
+    */
 }
-//gEngine.Core.inheritPrototype(Hero, WASDObj);
+gEngine.Core.inheritPrototype(Hero, GameObject);
 
 Hero.prototype.update = function () {
-    //GameObject.prototype.update.call(this);
-    this.mGameObject.update();
+    
+    // need to set its angular velocity to 0 every frame so it always stands
+    // up straight:
+    //RigidShape.prototype.setAngularVelocity = function(w) { this.mAngularVelocity = w; };
+    
+    this.getRigidBody().setAngularVelocity(0);
+    
+    GameObject.prototype.update.call(this);
+    
+    // this if statement is needed so that the player cannot jump again
+    // at the apex of their jump arc
+    if(this.getRigidBody().getVelocity()[1] >= -0.3 &&
+            this.getRigidBody().getVelocity()[1] <= 0.25){
+                
+                this.jumping = false;
+    }
+    //this.mGameObject.update();
 };
 
 Hero.prototype.draw = function(aCamera){
-    this.mGameObject.draw(aCamera);
+    GameObject.prototype.draw.call(this, aCamera);
+}
+
+Hero.prototype.moveLeft = function(){
+    this.getXform().incXPosBy(-this.kDelta);
+    //adjustPositionBy = function(v, delta) {
+    //this.getRigidBody().adjustPositionBy(this.getXform().getPosition(), this.kDelta);
+}
+
+Hero.prototype.moveRight = function(){
+    this.getXform().incXPosBy(this.kDelta);
+}
+
+Hero.prototype.jump = function(){
+    // There should be an additional check that the hero's bottom bounding 
+    // box is colliding with something else, or else you will be able to
+    // jump at the apex of the jump arc, however I have fixed this issue
+    // by adding this.jumping. see this.update for more details
+    
+    // logs the player's vertical velocity for testing purposes
+    console.log(this.getRigidBody().getVelocity()[1]);
+    
+    
+    if(this.getRigidBody().getVelocity()[1] >= -0.3 &&
+            this.getRigidBody().getVelocity()[1] <= 0.25 && !this.jumping){
+        
+        this.jumping = true;
+        this.getRigidBody().setVelocity(0, 20);
+        
+    }
 }

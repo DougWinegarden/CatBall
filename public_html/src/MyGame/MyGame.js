@@ -25,8 +25,9 @@ function MyGame() {
 
     this.mAllObjs = null;
     //this.mBounds = null;
-    //this.mCollisionInfos = [];
-    this.mHero = null;
+    this.mCollisionInfos = [];
+    this.mPlayer1 = null;
+    this.mPlayer2 = null;
     
     //this.mCurrentObj = 0;
     //this.mTarget = null;
@@ -48,8 +49,7 @@ MyGame.prototype.unloadScene = function () {
    // gEngine.Textures.unloadTexture(this.kWallTexture);
     //gEngine.Textures.unloadTexture(this.kTargetTexture);
     
-    var start = new IntroMenu();
-    gEngine.Core.startScene(start);
+    
 };
 
 MyGame.prototype.initialize = function () {
@@ -59,9 +59,12 @@ MyGame.prototype.initialize = function () {
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
                                 
-    this.mHero = new Hero(this.kMinionSprite);
+    this.mPlayer1 = new Hero(this.kMinionSprite);
     
     this.mAllObjs = new GameObjectSet();
+    
+    this.mAllObjs.addToSet(this.mPlayer1);
+    
     this.createBounds();
     
     
@@ -76,7 +79,7 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
     
-    this.mHero.draw(this.mCamera);
+    this.mPlayer1.draw(this.mCamera);
     
     this.mAllObjs.draw(this.mCamera);
     
@@ -105,15 +108,12 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
 MyGame.prototype.update = function () {
     //var msg = "";   
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
-        //gEngine.Physics.togglePositionalCorrection();
-        this.unloadScene();
-    }
+    this.updateInput();
     
     
     this.mAllObjs.update(this.mCamera);
     
-    
+    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
     
     
     /*
@@ -177,3 +177,23 @@ MyGame.prototype.update = function () {
     this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
     */
 };
+
+MyGame.prototype.updateInput = function () {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
+        // takes user(s) back to main menu
+        var start = new IntroMenu();
+        gEngine.Core.startScene(start);
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+        this.mPlayer1.jump();
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+        this.mPlayer1.moveLeft();
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+        this.mPlayer1.moveRight();
+    }
+}
