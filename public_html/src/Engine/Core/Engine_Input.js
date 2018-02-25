@@ -35,6 +35,7 @@ gEngine.Input = (function () {
 
         // space bar
         Space: 32,
+        Escape: 27,
 
         // numbers 
         Zero: 48,

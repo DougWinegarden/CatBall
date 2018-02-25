@@ -23,7 +23,7 @@ function MyGame() {
     //this.mMsg = null;
     //this.mShapeMsg = null;
 
-    //this.mAllObjs = null;
+    this.mAllObjs = null;
     //this.mBounds = null;
     //this.mCollisionInfos = [];
     this.mHero = null;
@@ -43,16 +43,29 @@ MyGame.prototype.loadScene = function () {
 };
 
 MyGame.prototype.unloadScene = function () {
-    gEngine.Textures.unloadTexture(this.kMinionSprite);
-    gEngine.Textures.unloadTexture(this.kPlatformTexture);
-    gEngine.Textures.unloadTexture(this.kWallTexture);
-    gEngine.Textures.unloadTexture(this.kTargetTexture);
+    //gEngine.Textures.unloadTexture(this.kMinionSprite);
+    //gEngine.Textures.unloadTexture(this.kPlatformTexture);
+   // gEngine.Textures.unloadTexture(this.kWallTexture);
+    //gEngine.Textures.unloadTexture(this.kTargetTexture);
+    
+    var start = new IntroMenu();
+    gEngine.Core.startScene(start);
 };
 
 MyGame.prototype.initialize = function () {
-    var start = new IntroMenu();
-    gEngine.core.startScene(start);
+    this.mCamera = new Camera(
+        vec2.fromValues(50, 40), // position of the camera
+        100,                     // width of camera
+        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+    );
+                                
+    this.mHero = new Hero(this.kMinionSprite);
     
+    this.mAllObjs = new GameObjectSet();
+    this.createBounds();
+    
+    
+    //this.unloadScene();
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -64,6 +77,8 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     
     this.mHero.draw(this.mCamera);
+    
+    this.mAllObjs.draw(this.mCamera);
     
     //this.mAllObjs.draw(this.mCamera);
     
@@ -86,13 +101,23 @@ MyGame.prototype.increasShapeSize = function(obj, delta) {
 
 // The Update function, updates the application state. Make sure to _NOT_ draw
 // anything from this function!
-MyGame.kBoundDelta = 0.1;
+//MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
     //var msg = "";   
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.P)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
         //gEngine.Physics.togglePositionalCorrection();
+        this.unloadScene();
     }
+    
+    
+    this.mAllObjs.update(this.mCamera);
+    
+    
+    
+    
+    /*
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
         //gEngine.Physics.toggleHasMotion();
     }
@@ -105,14 +130,14 @@ MyGame.prototype.update = function () {
         this.mCurrentObj -= 1;
         if (this.mCurrentObj < this.mFirstObject)
             this.mCurrentObj = this.mAllObjs.size() - 1;
-            */
+            
     }            
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
         /*
         this.mCurrentObj += 1;
         if (this.mCurrentObj >= this.mAllObjs.size())
             this.mCurrentObj = this.mFirstObject;
-            */
+            
     }
 
     //var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
@@ -130,7 +155,7 @@ MyGame.prototype.update = function () {
         var t = Math.random() > 0.5;
         var m = new Minion(this.kMinionSprite, x, y, t);
         this.mAllObjs.addToSet(m);
-        */
+        
     }
         
     //obj.keyControl();
@@ -140,7 +165,7 @@ MyGame.prototype.update = function () {
     
     //gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
     
-    /*
+    
     
     var p = obj.getXform().getPosition();
     this.mTarget.getXform().setPosition(p[0], p[1]);
