@@ -89,6 +89,8 @@ GameObject.prototype.update = function () {
     // simple default behavior
     if (this.mRigidBody !== null)
             this.mRigidBody.update();
+        
+    /*
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.T)) {
         this.toggleDrawRenderable();
     }
@@ -99,6 +101,7 @@ GameObject.prototype.update = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.R)) {
         this.toggleDrawRigidShape();
     }
+    */
 };
 
 GameObject.prototype.draw = function (aCamera) {
