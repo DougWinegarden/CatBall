@@ -16,6 +16,8 @@ function MyGame() {
     this.kPlatformTexture = "assets/platform.png";
     this.kWallTexture = "assets/wall.png";
     this.kTargetTexture = "assets/target.png";
+    this.kCatBallTexture = "assets/catBall1.png"
+    this.kPlayerTexture = "assets/oofCharacter.png"
     
     // The camera to view the scene
     this.mCamera = null;
@@ -29,6 +31,9 @@ function MyGame() {
     this.mPlayer1 = null;
     this.mPlayer2 = null;
     
+    this.mPlayer1CatBall = null;
+    this.mPlayer2CatBall = null;
+    
     //this.mCurrentObj = 0;
     //this.mTarget = null;
 }
@@ -40,7 +45,10 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kPlatformTexture);
     gEngine.Textures.loadTexture(this.kWallTexture);
     gEngine.Textures.loadTexture(this.kTargetTexture);
-            
+    
+    
+    gEngine.Textures.loadTexture(this.kCatBallTexture);  
+    gEngine.Textures.loadTexture(this.kPlayerTexture);  
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -59,11 +67,13 @@ MyGame.prototype.initialize = function () {
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
                                 
-    this.mPlayer1 = new Hero(this.kMinionSprite);
+    this.mPlayer1 = new Hero(this.kPlayerTexture);
+    this.mPlayer1CatBall = new CatBall(this.kCatBallTexture);
     
     this.mAllObjs = new GameObjectSet();
     
     this.mAllObjs.addToSet(this.mPlayer1);
+    this.mAllObjs.addToSet(this.mPlayer1CatBall);
     
     this.createBounds();
     
@@ -79,7 +89,7 @@ MyGame.prototype.draw = function () {
 
     this.mCamera.setupViewProjection();
     
-    this.mPlayer1.draw(this.mCamera);
+    //this.mPlayer1.draw(this.mCamera);
     
     this.mAllObjs.draw(this.mCamera);
     

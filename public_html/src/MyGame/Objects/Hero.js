@@ -18,7 +18,7 @@ function Hero(spriteTexture) {
     this.mDye.setColor([1, 1, 1, 0]);
     this.mDye.getXform().setPosition(50, 40);
     this.mDye.getXform().setSize(3, 4);
-    this.mDye.setElementPixelPositions(0, 120, 0, 180);
+    this.mDye.setElementPixelPositions(0, 128, 0, 128);
     
     //this.mGameObject = new GameObject(this.mDye);
     GameObject.call(this, this.mDye);
@@ -78,14 +78,15 @@ Hero.prototype.moveRight = function(){
 Hero.prototype.jump = function(){
     // There should be an additional check that the hero's bottom bounding 
     // box is colliding with something else, or else you will be able to
-    // jump at the apex of the jump arc, however I have fixed this issue
-    // by adding this.jumping. see this.update for more details
+    // jump at the apex of the jump arc -- -- however I have fixed this issue
+    // by adding this.jumping. see this.update for more details.. Still might
+    // work better with the bounding box check, as jumping isn't currently "snappy"
     
     // logs the player's vertical velocity for testing purposes
     console.log(this.getRigidBody().getVelocity()[1]);
     
     
-    if(this.getRigidBody().getVelocity()[1] >= -0.3 &&
+    if(this.getRigidBody().getVelocity()[1] >= -1.6 &&
             this.getRigidBody().getVelocity()[1] <= 0.25 && !this.jumping){
         
         this.jumping = true;
