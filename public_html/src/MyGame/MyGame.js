@@ -78,13 +78,18 @@ MyGame.prototype.initialize = function () {
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
                                 
-    this.mPlayer1 = new Hero(this.kPlayerTexture);
-    this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture);
+    this.mPlayer1 = new Hero(this.kPlayerTexture, 20, 10);
+    this.mPlayer2 = new Hero(this.kPlayerTexture, 80, 10);
+    
+    this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
+    this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
     
     this.mAllObjs = new GameObjectSet();
     
     this.mAllObjs.addToSet(this.mPlayer1);
+    this.mAllObjs.addToSet(this.mPlayer2);
     this.mAllObjs.addToSet(this.mPlayer1CatBall);
+    this.mAllObjs.addToSet(this.mPlayer2CatBall);
     
     this.createBounds();
     
@@ -234,5 +239,17 @@ MyGame.prototype.updateInput = function () {
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mPlayer1.moveRight();
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
+        this.mPlayer2.jump();
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.J)) {
+        this.mPlayer2.moveLeft();
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.L)) {
+        this.mPlayer2.moveRight();
     }
 }

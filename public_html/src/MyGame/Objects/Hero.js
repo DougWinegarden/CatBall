@@ -11,12 +11,12 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Hero(spriteTexture) {
+function Hero(spriteTexture, x, y) {
     this.kDelta = 0.3;
 
     this.mDye = new SpriteRenderable(spriteTexture);
     this.mDye.setColor([1, 1, 1, 0]);
-    this.mDye.getXform().setPosition(50, 40);
+    this.mDye.getXform().setPosition(x, y);
     this.mDye.getXform().setSize(3, 4);
     this.mDye.setElementPixelPositions(0, 128, 0, 128);
     

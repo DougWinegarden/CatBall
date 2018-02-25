@@ -5,14 +5,17 @@
  */
 
 
-function CatBall(spriteTexture){
+function CatBall(spriteTexture, focus){
     //this.kDelta = 0.3;
-
+    this.focus = focus;
+    
     this.mCat = new SpriteRenderable(spriteTexture);
-    this.mCat.setColor([1, 1, 1, 0]);
+    //this.mCat.setColor([1, 1, 1, 0]);
 
     //this.mCat.setColor([255, 255, 255, .5]);
-    this.mCat.getXform().setPosition(50, 40);
+    var pos = this.focus.getXform().getPosition();
+    //pos[1] += 10;
+    this.mCat.getXform().setPosition(pos[0], pos[1] + 5);
     this.mCat.getXform().setSize(4, 4);
     this.mCat.setElementPixelPositions(0, 128, 0, 128);
     
