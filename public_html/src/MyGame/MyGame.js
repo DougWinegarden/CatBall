@@ -17,7 +17,9 @@ function MyGame() {
     this.kWallTexture = "assets/wall.png";
     this.kTargetTexture = "assets/target.png";
     //this.kCatBallTexture = "assets/catBall1.png"
-    this.kCatBallTexture = "assets/catball2.png"
+    //this.kCatBallTexture = "assets/catball2.png"
+    this.kRedCatBallTexture = "assets/redcatball.png"
+    this.kBlueCatBallTexture = "assets/bluecatball.png"
     this.kPlayerTexture = "assets/oofCharacter.png"
     
     // The camera to view the scene
@@ -55,7 +57,8 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kTargetTexture);
     
     
-    gEngine.Textures.loadTexture(this.kCatBallTexture);  
+    gEngine.Textures.loadTexture(this.kRedCatBallTexture);  
+    gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
 };
 
@@ -76,7 +79,7 @@ MyGame.prototype.initialize = function () {
     );
                                 
     this.mPlayer1 = new Hero(this.kPlayerTexture);
-    this.mPlayer1CatBall = new CatBall(this.kCatBallTexture);
+    this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture);
     
     this.mAllObjs = new GameObjectSet();
     

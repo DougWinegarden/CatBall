@@ -10,6 +10,8 @@ function CatBall(spriteTexture){
 
     this.mCat = new SpriteRenderable(spriteTexture);
     this.mCat.setColor([1, 1, 1, 0]);
+
+    //this.mCat.setColor([255, 255, 255, .5]);
     this.mCat.getXform().setPosition(50, 40);
     this.mCat.getXform().setSize(4, 4);
     this.mCat.setElementPixelPositions(0, 128, 0, 128);
@@ -21,7 +23,8 @@ function CatBall(spriteTexture){
     r.setMass(0.2);
     r.setRestitution(5000);
     this.setRigidBody(r);
-    this.toggleDrawRigidShape();
+    
+    //this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(CatBall, GameObject);
 
