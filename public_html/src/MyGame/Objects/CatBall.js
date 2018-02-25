@@ -24,8 +24,14 @@ function CatBall(spriteTexture, focus){
     
     var r = new RigidCircle(this.getXform(), 2);
     r.setMass(0.2);
-    r.setRestitution(5000);
+    r.setRestitution(0.1);
     this.setRigidBody(r);
+    
+    // state can be: held, returning, or thrown
+    // state: stays on top of the player
+    // returning: interpolates or chases back to player
+    // thrown: at the mercy of physics
+    this.state = "held";
     
     //this.toggleDrawRigidShape();
 }
@@ -34,6 +40,13 @@ gEngine.Core.inheritPrototype(CatBall, GameObject);
 CatBall.prototype.update = function () {
     GameObject.prototype.update.call(this);
     
+    var pos = this.focus.getXform().getPosition();
+    if(this.state == "held"){
+        // is there any way to disable physics being calculated?
+        this.getXform().setPosition(pos[0], pos[1] + 2.5);
+    } else if(this.state == "returning"){
+        
+    }
     //console.log(this.getRigidBody().getRestitution());
 };
 
