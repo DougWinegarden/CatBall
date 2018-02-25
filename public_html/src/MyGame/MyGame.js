@@ -46,6 +46,8 @@ function MyGame() {
     this.mPlayer2Score = 0;
     //this.mCurrentObj = 0;
     //this.mTarget = null;
+    
+    //this.mCatInSet = true;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -77,6 +79,8 @@ MyGame.prototype.initialize = function () {
         100,                     // width of camera
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
+    
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
                                 
     this.mPlayer1 = new Hero(this.kPlayerTexture, 20, 10);
     this.mPlayer2 = new Hero(this.kPlayerTexture, 80, 10);
@@ -109,7 +113,7 @@ MyGame.prototype.draw = function () {
     this.mCamera.setupViewProjection();
     
     //this.mPlayer1.draw(this.mCamera);
-    
+    //this.mPlayer1CatBall.draw(this.mCamera); 
     this.mAllObjs.draw(this.mCamera);
     
     this.mTimerText.draw(this.mCamera);
@@ -141,6 +145,17 @@ MyGame.prototype.update = function () {
     
     this.updateInput();
     this.updateTimer();
+    
+    /*
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
+        var obj = this.mAllObjs.removeFromSet(this.mPlayer1CatBall);
+        this.mCatInSet = false;
+    }
+    
+    if(!this.mCatInSet){
+        this.mPlayer1CatBall.update();
+    }
+    */
     
     this.mAllObjs.update(this.mCamera);
     
@@ -230,7 +245,7 @@ MyGame.prototype.updateInput = function () {
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        this.mPlayer1.jump();
+        this.mPlayer1.jump(this.mAllObjs);
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
@@ -242,7 +257,7 @@ MyGame.prototype.updateInput = function () {
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
-        this.mPlayer2.jump();
+        this.mPlayer2.jump(this.mAllObjs);
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.J)) {

@@ -33,7 +33,7 @@ function Hero(spriteTexture, x, y) {
     var r = new RigidRectangle(this.getXform(), 3, 4);
     this.setRigidBody(r);
     
-    this.jumping = false;
+    //this.jumping = false;
     
     //this.toggleDrawRenderable();
     this.toggleDrawRigidShape();
@@ -53,11 +53,13 @@ Hero.prototype.update = function () {
     
     // this if statement is needed so that the player cannot jump again
     // at the apex of their jump arc
+    /*
     if(this.getRigidBody().getVelocity()[1] >= -0.3 &&
             this.getRigidBody().getVelocity()[1] <= 0.25){
                 
                 this.jumping = false;
     }
+    */
     //this.mGameObject.update();
 };
 
@@ -75,7 +77,7 @@ Hero.prototype.moveRight = function(){
     this.getXform().incXPosBy(this.kDelta);
 }
 
-Hero.prototype.jump = function(){
+Hero.prototype.jump = function(gameObjectSet){
     // There should be an additional check that the hero's bottom bounding 
     // box is colliding with something else, or else you will be able to
     // jump at the apex of the jump arc -- -- however I have fixed this issue
@@ -83,9 +85,9 @@ Hero.prototype.jump = function(){
     // work better with the bounding box check, as jumping isn't currently "snappy"
     
     // logs the player's vertical velocity for testing purposes
-    console.log(this.getRigidBody().getVelocity()[1]);
-    
-    
+    //console.log(this.getRigidBody().getVelocity()[1]);
+    //console.log(this.jumping);
+    /*
     if(this.getRigidBody().getVelocity()[1] >= -1.6 &&
             this.getRigidBody().getVelocity()[1] <= 0.25 && !this.jumping){
         
@@ -93,4 +95,19 @@ Hero.prototype.jump = function(){
         this.getRigidBody().setVelocity(0, 20);
         
     }
+    */
+    
+    var canJump = false;
+    for(var i = 0; i < gameObjectSet.mSet.length; i++){
+        var temp = gameObjectSet.mSet[i].getBBox();
+        if(this.getBBox().boundCollideStatus(temp) == 16){
+            canJump = true;
+        }
+    }
+    
+    if(canJump){
+        this.getRigidBody().setVelocity(0, 20);
+    }
+    //console.log(this.getBBox().boundCollideStatus());
+    //if(this.getBBox().boundCollideStatus() ==)
 }

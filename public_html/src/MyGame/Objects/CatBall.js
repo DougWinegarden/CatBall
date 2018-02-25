@@ -38,14 +38,16 @@ function CatBall(spriteTexture, focus){
 gEngine.Core.inheritPrototype(CatBall, GameObject);
 
 CatBall.prototype.update = function () {
-    GameObject.prototype.update.call(this);
+    
     
     var pos = this.focus.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
-        this.getXform().setPosition(pos[0], pos[1] + 2.5);
+        this.getXform().setPosition(pos[0], pos[1] + 5);
     } else if(this.state == "returning"){
         
+    } else {
+        GameObject.prototype.update.call(this);
     }
     //console.log(this.getRigidBody().getRestitution());
 };
