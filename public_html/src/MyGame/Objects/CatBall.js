@@ -8,14 +8,14 @@
 function CatBall(spriteTexture){
     //this.kDelta = 0.3;
 
-    this.mDye = new SpriteRenderable(spriteTexture);
-    //this.mDye.setColor([1, 1, 1, 0]);
-    this.mDye.getXform().setPosition(50, 40);
-    this.mDye.getXform().setSize(3, 3);
-    this.mDye.setElementPixelPositions(5, 128 - 5, 5, 128 - 5);
+    this.mCat = new SpriteRenderable(spriteTexture);
+    this.mCat.setColor([1, 1, 1, 0]);
+    this.mCat.getXform().setPosition(50, 40);
+    this.mCat.getXform().setSize(4, 4);
+    this.mCat.setElementPixelPositions(0, 128, 0, 128);
     
 
-    GameObject.call(this, this.mDye);
+    GameObject.call(this, this.mCat);
     
     var r = new RigidCircle(this.getXform(), 2);
     r.setMass(0.2);

@@ -16,7 +16,8 @@ function MyGame() {
     this.kPlatformTexture = "assets/platform.png";
     this.kWallTexture = "assets/wall.png";
     this.kTargetTexture = "assets/target.png";
-    this.kCatBallTexture = "assets/catBall1.png"
+    //this.kCatBallTexture = "assets/catBall1.png"
+    this.kCatBallTexture = "assets/catball2.png"
     this.kPlayerTexture = "assets/oofCharacter.png"
     
     // The camera to view the scene
