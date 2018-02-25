@@ -96,13 +96,19 @@ Hero.prototype.jump = function(gameObjectSet){
         
     }
     */
+   
+   this.getXform().incYPosBy(-this.kDelta);
     
     var canJump = false;
     for(var i = 0; i < gameObjectSet.mSet.length; i++){
-        var temp = gameObjectSet.mSet[i].getBBox();
-        if(this.getBBox().boundCollideStatus(temp) == 16){
-            canJump = true;
+        if(gameObjectSet.mSet[i] != this){
+            var temp = gameObjectSet.mSet[i].getBBox();
+            console.log(this.getBBox().boundCollideStatus(temp));
+            if(this.getBBox().boundCollideStatus(temp) != 0){
+                canJump = true;
+            }
         }
+        
     }
     
     if(canJump){
