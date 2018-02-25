@@ -34,10 +34,10 @@ function Hero(spriteTexture) {
     this.setRigidBody(r);
     
     this.jumping = false;
-    /*
-    this.toggleDrawRenderable();
+    
+    //this.toggleDrawRenderable();
     this.toggleDrawRigidShape();
-    */
+    
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
 

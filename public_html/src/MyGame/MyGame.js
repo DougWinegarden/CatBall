@@ -34,6 +34,13 @@ function MyGame() {
     this.mPlayer1CatBall = null;
     this.mPlayer2CatBall = null;
     
+    this.mTimer = 60000;
+    //this.deltaTime = 0;
+    this.lastTime = Date.now();
+    this.mTimerText = null;
+    
+    this.mPlayer1Score = 0;
+    this.mPlayer2Score = 0;
     //this.mCurrentObj = 0;
     //this.mTarget = null;
 }
@@ -77,7 +84,10 @@ MyGame.prototype.initialize = function () {
     
     this.createBounds();
     
-    
+    this.mTimerText = new FontRenderable("" + Math.round(this.mTimer / 1000));
+    this.mTimerText.setColor([1, 1, 1, 0]);
+    this.mTimerText.getXform().setPosition(49, 71);
+    this.mTimerText.setTextHeight(3);
     //this.unloadScene();
 };
 
@@ -92,6 +102,8 @@ MyGame.prototype.draw = function () {
     //this.mPlayer1.draw(this.mCamera);
     
     this.mAllObjs.draw(this.mCamera);
+    
+    this.mTimerText.draw(this.mCamera);
     
     //this.mAllObjs.draw(this.mCamera);
     
@@ -119,7 +131,7 @@ MyGame.prototype.update = function () {
     //var msg = "";   
     
     this.updateInput();
-    
+    this.updateTimer();
     
     this.mAllObjs.update(this.mCamera);
     
@@ -187,6 +199,19 @@ MyGame.prototype.update = function () {
     this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
     */
 };
+
+MyGame.prototype.updateTimer = function () {
+    var deltaTime = Date.now() - this.lastTime;
+    this.mTimer -= deltaTime;
+    //var t = 
+    this.mTimerText.setText("" + Math.round(this.mTimer / 1000));
+    this.lastTime = Date.now();
+    
+    if(this.mTimer <= 0){
+        var start = new GameOver();
+        gEngine.Core.startScene(start);
+    }
+}
 
 MyGame.prototype.updateInput = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {

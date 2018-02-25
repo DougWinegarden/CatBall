@@ -21,8 +21,7 @@ function CatBall(spriteTexture){
     r.setMass(0.2);
     r.setRestitution(5000);
     this.setRigidBody(r);
-    
-    this.jumping = false;
+    this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(CatBall, GameObject);
 
