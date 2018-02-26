@@ -288,6 +288,22 @@ MyGame.prototype.updateInput = function () {
         this.mPlayer1CatBall.throw();
     }
     
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Comma)) {
+        if (this.mPlayer2CatBall.throwAngle < 180) {
+            this.mPlayer2CatBall.throwAngle++;
+        }
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Period)) {
+        if (this.mPlayer2CatBall.throwAngle > 0) {
+            this.mPlayer2CatBall.throwAngle--;
+        }
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
+        this.mPlayer2CatBall.throw();
+    }
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
         this.mPlayer2.jump(this.mAllObjs);
     }
