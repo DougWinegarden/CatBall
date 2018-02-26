@@ -18,9 +18,11 @@ function MyGame() {
     this.kTargetTexture = "assets/target.png";
     //this.kCatBallTexture = "assets/catBall1.png"
     //this.kCatBallTexture = "assets/catball2.png"
-    this.kRedCatBallTexture = "assets/redcatball.png"
-    this.kBlueCatBallTexture = "assets/bluecatball.png"
-    this.kPlayerTexture = "assets/oofCharacter.png"
+    this.kRedCatBallTexture = "assets/redcatball.png";
+    this.kBlueCatBallTexture = "assets/bluecatball.png";
+    this.kPlayerTexture = "assets/oofCharacter.png";
+    //this.kBasketTexture = "assets/basket1.png";
+    this.kBasketTexture = "assets/3baskets.png";
     
     // The camera to view the scene
     this.mCamera = null;
@@ -64,6 +66,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kRedCatBallTexture);  
     gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
+    gEngine.Textures.loadTexture(this.kBasketTexture);  
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -89,6 +92,8 @@ MyGame.prototype.initialize = function () {
     
     this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
     this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
+    
+    this.initializeBaskets();
     
     this.mAllObjs = new GameObjectSet();
     
@@ -116,6 +121,11 @@ MyGame.prototype.initialize = function () {
     this.mPlayer2Score.setTextHeight(3);
 };
 
+MyGame.prototype.initializeBaskets = function(){
+    var basket = new Basket(this.kBasketTexture, 20, 20);
+    this.basketSet.push(basket);
+}
+
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
@@ -127,6 +137,10 @@ MyGame.prototype.draw = function () {
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
     this.mAllObjs.draw(this.mCamera);
+    
+    for(var i = 0; i < this.basketSet.length; i++){
+        this.basketSet[i].draw(this.mCamera);
+    }
     
     this.mTimerText.draw(this.mCamera);
     
@@ -172,6 +186,10 @@ MyGame.prototype.update = function () {
         this.mPlayer1CatBall.update();
     }
     */
+   
+   for(var i = 0; i < this.basketSet.length; i++){
+        this.basketSet[i].update(this.mPlayer1CatBall, this.mPlayer2CatBall);
+    }
     
     this.mAllObjs.update(this.mCamera);
     

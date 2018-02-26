@@ -24,7 +24,8 @@ function CatBall(spriteTexture, focus){
     
     var r = new RigidCircle(this.getXform(), 2);
     r.setMass(0.2);
-    r.setRestitution(0.1);
+    r.setRestitution(0.5);
+    //r.setFriction(0.5);
     this.setRigidBody(r);
     
     // state can be: held, returning, or thrown
