@@ -124,6 +124,39 @@ MyGame.prototype.initialize = function () {
 MyGame.prototype.initializeBaskets = function(){
     var basket = new Basket(this.kBasketTexture, 20, 20);
     this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 80, 20);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 50, 8);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 8, 8);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 92, 8);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 50, 45);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 50, 35);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 8, 45);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 92, 45);
+    this.basketSet.push(basket);
+    
+     var basket = new Basket(this.kBasketTexture, 8, 68);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 92, 68);
+    this.basketSet.push(basket);
+    
+    var basket = new Basket(this.kBasketTexture, 50, 64);
+    this.basketSet.push(basket);
 }
 
 // This is the draw function, make sure to setup proper drawing environment, and more
