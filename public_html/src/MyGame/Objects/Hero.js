@@ -20,6 +20,8 @@ function Hero(spriteTexture, x, y) {
     this.mDye.getXform().setSize(3, 4);
     this.mDye.setElementPixelPositions(0, 128, 0, 128);
     
+    this.canJump = false;
+    
     //this.mGameObject = new GameObject(this.mDye);
     GameObject.call(this, this.mDye);
     
@@ -65,17 +67,17 @@ Hero.prototype.update = function () {
 
 Hero.prototype.draw = function(aCamera){
     GameObject.prototype.draw.call(this, aCamera);
-}
+};
 
 Hero.prototype.moveLeft = function(){
     this.getXform().incXPosBy(-this.kDelta);
     //adjustPositionBy = function(v, delta) {
     //this.getRigidBody().adjustPositionBy(this.getXform().getPosition(), this.kDelta);
-}
+};
 
 Hero.prototype.moveRight = function(){
     this.getXform().incXPosBy(this.kDelta);
-}
+};
 
 Hero.prototype.jump = function(gameObjectSet){
     // There should be an additional check that the hero's bottom bounding 
@@ -96,24 +98,20 @@ Hero.prototype.jump = function(gameObjectSet){
         
     }
     */
-   
-   this.getXform().incYPosBy(-this.kDelta);
     
-    var canJump = false;
+    //var canJump = false;
+    this.canJump = false;
     for(var i = 0; i < gameObjectSet.mSet.length; i++){
-        if(gameObjectSet.mSet[i] != this){
-            var temp = gameObjectSet.mSet[i].getBBox();
-            console.log(this.getBBox().boundCollideStatus(temp));
-            if(this.getBBox().boundCollideStatus(temp) != 0){
-                canJump = true;
-            }
+        var temp = gameObjectSet.mSet[i].getBBox();
+        if(this.getBBox().boundCollideStatus(temp) === 16){
+            this.canJump = true;
+            console.log("works");
         }
-        
     }
     
-    if(canJump){
-        this.getRigidBody().setVelocity(0, 20);
+    if(this.canJump){
+        this.getRigidBody().setVelocity(0, 25);
     }
     //console.log(this.getBBox().boundCollideStatus());
     //if(this.getBBox().boundCollideStatus() ==)
-}
+};

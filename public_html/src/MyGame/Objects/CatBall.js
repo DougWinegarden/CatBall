@@ -33,13 +33,14 @@ function CatBall(spriteTexture, focus){
     // thrown: at the mercy of physics
     this.state = "held";
     
+    this.throwAngle = 60;
+    
     //this.toggleDrawRigidShape();
 }
 gEngine.Core.inheritPrototype(CatBall, GameObject);
 
 CatBall.prototype.update = function () {
-    
-    
+    console.log(this.getRigidBody().getVelocity());
     var pos = this.focus.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
@@ -50,8 +51,16 @@ CatBall.prototype.update = function () {
         GameObject.prototype.update.call(this);
     }
     //console.log(this.getRigidBody().getRestitution());
+    
 };
 
 CatBall.prototype.draw = function(aCamera){
     GameObject.prototype.draw.call(this, aCamera);
-}
+};
+
+CatBall.prototype.throw = function(){
+    var x = Math.cos((this.throwAngle / 180) * Math.PI) * 5;
+    var y = Math.sin((this.throwAngle / 180) * Math.PI) * 5;
+    this.getRigidBody().setVelocity(x, y);
+    console.log(this.getRigidBody().getVelocity());
+};

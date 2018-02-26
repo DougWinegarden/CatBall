@@ -31,10 +31,14 @@ MyGame.prototype.createBounds = function() {
     for (x = 15; x < 120; x+=30) 
         this.platformAt(x, y, w, 180);
     
-    this.platformAt(40, 40, 20, 0);
-    this.platformAt(60, 30, 20, 0);
-    this.platformAt(20, 20, 20, 0);
-    this.platformAt(70, 50, 20, 0);
+    this.platformAt(50, 60, 30, 0);
+    this.platformAt(15, 50, 20, 0);
+    this.platformAt(30, 20, 15, 0);
+    this.platformAt(70, 20, 15, 0);
+    this.platformAt(85, 50, 20, 0);
+    this.platformAt(15, 30, 10, 0);
+    this.platformAt(85, 30, 10, 0);
+    this.platformAt(50, 40, 20, 0);
     
     x = 2;
     w = 3;

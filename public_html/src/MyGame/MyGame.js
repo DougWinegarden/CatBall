@@ -37,13 +37,15 @@ function MyGame() {
     this.mPlayer1CatBall = null;
     this.mPlayer2CatBall = null;
     
+    this.basketSet = [];
+    
     this.mTimer = 60000;
     //this.deltaTime = 0;
     this.lastTime = Date.now();
     this.mTimerText = null;
     
-    this.mPlayer1Score = 0;
-    this.mPlayer2Score = 0;
+    this.mPlayer1Score = null;
+    this.mPlayer2Score = null;
     //this.mCurrentObj = 0;
     //this.mTarget = null;
     
@@ -102,6 +104,16 @@ MyGame.prototype.initialize = function () {
     this.mTimerText.getXform().setPosition(49, 71);
     this.mTimerText.setTextHeight(3);
     //this.unloadScene();
+    
+    this.mPlayer1Score = new FontRenderable("");
+    this.mPlayer1Score.setColor([1, 1, 1, 0]);
+    this.mPlayer1Score.getXform().setPosition(25, 71);
+    this.mPlayer1Score.setTextHeight(3);
+    
+    this.mPlayer2Score = new FontRenderable("");
+    this.mPlayer2Score.setColor([1, 1, 1, 0]);
+    this.mPlayer2Score.getXform().setPosition(75, 71);
+    this.mPlayer2Score.setTextHeight(3);
 };
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -117,6 +129,9 @@ MyGame.prototype.draw = function () {
     this.mAllObjs.draw(this.mCamera);
     
     this.mTimerText.draw(this.mCamera);
+    
+    this.mPlayer1Score.draw(this.mCamera);
+    this.mPlayer2Score.draw(this.mCamera);
     
     //this.mAllObjs.draw(this.mCamera);
     
@@ -145,6 +160,7 @@ MyGame.prototype.update = function () {
     
     this.updateInput();
     this.updateTimer();
+    this.updateScore();
     
     /*
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
@@ -256,6 +272,22 @@ MyGame.prototype.updateInput = function () {
         this.mPlayer1.moveRight();
     }
     
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
+        if (this.mPlayer1CatBall.throwAngle < 180) {
+            this.mPlayer1CatBall.throwAngle++;
+        }
+    }
+    
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.V)) {
+        if (this.mPlayer1CatBall.throwAngle > 0) {
+            this.mPlayer1CatBall.throwAngle--;
+        }
+    }
+    
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+        this.mPlayer1CatBall.throw();
+    }
+    
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
         this.mPlayer2.jump(this.mAllObjs);
     }
@@ -267,4 +299,18 @@ MyGame.prototype.updateInput = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.L)) {
         this.mPlayer2.moveRight();
     }
+}
+
+MyGame.prototype.updateScore = function () {
+    var score1 = 0;
+    var score2 = 0;
+    for (var i  = 0; i < this.basketSet.length; i++) {
+        if (this.basketSet[i].color == 1) {
+            score1++;
+        } else if (this.basketSet[i].color == 2) {
+            score2++;
+        }
+    }
+    this.mPlayer1Score.setText("" + score1);
+    this.mPlayer2Score.setText("" + score2);
 }
