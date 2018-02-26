@@ -98,15 +98,25 @@ Hero.prototype.jump = function(gameObjectSet){
         
     }
     */
-    
+   
+    this.getXform().incYPosBy(-this.kDelta);
     //var canJump = false;
     this.canJump = false;
     for(var i = 0; i < gameObjectSet.mSet.length; i++){
-        var temp = gameObjectSet.mSet[i].getBBox();
+        //var temp = gameObjectSet.mSet[i].getBBox();
+        if(gameObjectSet.mSet[i] != this){
+            var temp = gameObjectSet.mSet[i].getBBox();
+            //console.log(this.getBBox().boundCollideStatus(temp));
+            if(this.getBBox().boundCollideStatus(temp) != 0){
+                this.canJump = true;
+            }
+        }
+        /*
         if(this.getBBox().boundCollideStatus(temp) === 16){
             this.canJump = true;
             console.log("works");
         }
+        */
     }
     
     if(this.canJump){
