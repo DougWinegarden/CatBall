@@ -43,7 +43,7 @@ IntroMenu.prototype.initialize = function () {
 };
 
 IntroMenu.prototype.draw = function () {
-    gEngine.Core.clearCanvas([0.9, 0.9, 0.9, 1.0]);
+    gEngine.Core.clearCanvas([1, 1, 1, 1.0]);
     this.mCamera.setupViewProjection();
     
     this.logo.draw(this.mCamera);
