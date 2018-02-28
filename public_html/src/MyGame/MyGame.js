@@ -24,8 +24,8 @@ function MyGame() {
     //this.kBasketTexture = "assets/basket1.png";
     this.kBasketTexture = "assets/3baskets.png";
     
-    this.kPlayerSprite = "assets/PlayerAnims.png";
-    this.kPlayerSpriteJSON = "assets/PlayerAnims.json";
+    this.kPlayerSprite = "assets/PlayerAnimSprite.png";
+    this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
     
     
     // The camera to view the scene
@@ -102,7 +102,7 @@ MyGame.prototype.initialize = function () {
     
     this.player1Cam = new Camera(
         this.mPlayer1.getXform().getPosition(), // position of the camera
-        10,                     // width of camera
+        6,                     // width of camera
         [100, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
     );
     
@@ -110,6 +110,9 @@ MyGame.prototype.initialize = function () {
     
     this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
     this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
+    
+    this.mPlayer1.setCatBall(this.mPlayer1CatBall);
+    this.mPlayer2.setCatBall(this.mPlayer2CatBall);
     
     this.initializeBaskets();
     
@@ -286,6 +289,8 @@ MyGame.prototype.updateObjects = function(){
     }
     
     this.mAllObjs.update(this.mCamera);
+    this.mPlayer1.updateJumpStatus(this.mAllObjs);
+    this.mPlayer2.updateJumpStatus(this.mAllObjs);
     
     gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
 }

@@ -5,15 +5,15 @@
  */
 
 
-function CatBall(spriteTexture, focus){
+function CatBall(spriteTexture, player){
     //this.kDelta = 0.3;
-    this.focus = focus;
+    this.player = player;
     
     this.mCat = new SpriteRenderable(spriteTexture);
     //this.mCat.setColor([1, 1, 1, 0]);
 
     //this.mCat.setColor([255, 255, 255, .5]);
-    var pos = this.focus.getXform().getPosition();
+    var pos = this.player.getXform().getPosition();
     //pos[1] += 10;
     this.mCat.getXform().setPosition(pos[0], pos[1] + 4);
     this.mCat.getXform().setSize(4, 4);
@@ -42,15 +42,16 @@ gEngine.Core.inheritPrototype(CatBall, GameObject);
 
 CatBall.prototype.update = function () {
     //console.log(this.getRigidBody().getVelocity());
-    var pos = this.focus.getXform().getPosition();
+    var pos = this.player.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
         this.getXform().setPosition(pos[0], pos[1] + 4);
     } else if(this.state == "returning"){
         
     } else {
-        GameObject.prototype.update.call(this);
+       GameObject.prototype.update.call(this); 
     }
+    
     //console.log(this.getRigidBody().getRestitution());
     
 };
@@ -60,6 +61,7 @@ CatBall.prototype.draw = function(aCamera){
 };
 
 CatBall.prototype.throw = function(){
+    this.player.updateAnimationStatus();
     if(this.state == "thrown"){
         this.state = "held";
     } else {
@@ -71,3 +73,10 @@ CatBall.prototype.throw = function(){
     }
     
 };
+
+CatBall.prototype.isHeld = function(){
+    if(this.state == "held"){
+        return true;
+    }
+    return false;
+}
