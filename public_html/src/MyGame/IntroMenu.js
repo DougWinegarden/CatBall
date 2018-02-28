@@ -40,6 +40,8 @@ IntroMenu.prototype.initialize = function () {
     this.startText.setColor([1, 1, 1, 0]);
     this.startText.getXform().setPosition(30, 40);
     this.startText.setTextHeight(3);
+    
+    //this.myGame = new MyGame();
 };
 
 IntroMenu.prototype.draw = function () {

@@ -16,7 +16,7 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     
     this.xVel = 0;
     this.yVel = 0;
-    this.kDelta = 4;
+    this.kDelta = 5;
     this.maxSpeed = 15;
     //this.canJump = false;
     this.jumping = false;
@@ -56,8 +56,11 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     // create and draw the rigidbody
     //var r = new RigidRectangle(this.getXform(), 3, 3);
     var r = new RigidCircle(this.getXform(), 2);
+    r.setMass(5);
+    r.setRestitution(0.1);
+    r.setInertia(0.01);
     this.setRigidBody(r);
-    this.toggleDrawRigidShape();
+    //this.toggleDrawRigidShape();
     
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
@@ -67,6 +70,12 @@ Hero.prototype.setCatBall = function(catball){
 }
 
 Hero.prototype.update = function () {
+    //console.log(this.getRigidBody().getVelocity()[0]);
+    if(this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        
+        this.updateAnimationStatus();
+    }
+    
     this.currentAnimation.updateAnimation();
     this.getRigidBody().setAngularVelocity(0);
     this.yVel = this.getRigidBody().getVelocity();
@@ -78,11 +87,15 @@ Hero.prototype.updateAnimationStatus = function(){
     // uncomment this to see states
     /*
     if(this.playerNum == 1){
-        console.log("jumping: " + this.jumping + ", facingRight: " + this.facingRight
-                + " holding: " + this.catBall.isHeld());
+        //console.log("jumping: " + this.jumping + ", facingRight: " + this.facingRight
+        //        + " holding: " + this.catBall.isHeld());
+        console.log(this.xVel);
         
     }
     */
+    
+   
+    
     
     if(this.jumping && this.facingRight && this.catBall.isHeld()){
         this.changeAnim(5);
@@ -100,6 +113,18 @@ Hero.prototype.updateAnimationStatus = function(){
         this.changeAnim(10);
     } else if (!this.jumping && !this.facingRight && !this.catBall.isHeld()){
         this.changeAnim(8);
+    } else if (!this.jumping && this.facingRight && this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(2);
+    } else if (!this.jumping && this.facingRight && !this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(3);
+    } else if (!this.jumping && !this.facingRight && !this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(1);
+    } else if (!this.jumping && !this.facingRight && this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(0);
     }
     
 }

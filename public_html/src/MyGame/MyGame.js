@@ -18,13 +18,13 @@ function MyGame() {
     this.kWallTexture = "assets/wall.png";
     this.kTargetTexture = "assets/target.png";
     //this.kCatBallTexture = "assets/catBall1.png"
-    //this.kCatBallTexture = "assets/catball2.png"
+    this.kCatBallTexture = "assets/catBalls.png"
     this.kRedCatBallTexture = "assets/redcatball.png";
     this.kBlueCatBallTexture = "assets/bluecatball.png";
     this.kPlayerTexture = "assets/oofCharacter.png";
     //this.kBasketTexture = "assets/basket1.png";
-    this.kBasketTexture = "assets/3baskets.png";
-    
+    //this.kBasketTexture = "assets/3baskets.png";
+    this.kBasketTexture = "assets/Baskets.png";
     this.kPlayerSprite = "assets/PlayerAnimSprite.png";
     this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
     
@@ -68,7 +68,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kWallTexture);
     gEngine.Textures.loadTexture(this.kTargetTexture);
     
-    
+    gEngine.Textures.loadTexture(this.kCatBallTexture); 
     gEngine.Textures.loadTexture(this.kRedCatBallTexture);  
     gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
@@ -106,24 +106,24 @@ MyGame.prototype.initialize = function () {
     this.player1Cam = new Camera(
         this.mPlayer1.getXform().getPosition(), // position of the camera
         6,                     // width of camera
-        [0, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
+        [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
     );
     
     this.player2Cam = new Camera(
         this.mPlayer2.getXform().getPosition(), // position of the camera
         6,                     // width of camera
-        [560, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
+        [560, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
     );
     
     
     
-    this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
-    this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
+    this.mPlayer1CatBall = new CatBall(this.kCatBallTexture, this.mPlayer1);
+    this.mPlayer2CatBall = new CatBall(this.kCatBallTexture, this.mPlayer2);
     
     this.mPlayer1.setCatBall(this.mPlayer1CatBall);
     this.mPlayer2.setCatBall(this.mPlayer2CatBall);
     
-    this.initializeBaskets();
+    
     
     this.mAllObjs = new GameObjectSet();
     
@@ -134,18 +134,29 @@ MyGame.prototype.initialize = function () {
     
     this.createBounds();
     
+    console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
+    this.initializeBaskets();
+    
+    for(var i = 0; i < this.basketSet.length; i++){
+        for(var j = 0; i < this.basketSet[i].physicsObjects.length; i++){
+            this.mAllObjs.addToSet(this.basketSet[i].physicsObjects[j]);
+        }
+        
+    }
+    
+    
     this.mTimerText = new FontRenderable("" + Math.round(this.mTimer / 1000));
     this.mTimerText.setColor([1, 1, 1, 0]);
     this.mTimerText.getXform().setPosition(49, 71);
     this.mTimerText.setTextHeight(3);
     //this.unloadScene();
     
-    this.mPlayer1Score = new FontRenderable("");
+    this.mPlayer1Score = new FontRenderable(" ");
     this.mPlayer1Score.setColor([1, 0, 0, 0]);
     this.mPlayer1Score.getXform().setPosition(25, 71);
     this.mPlayer1Score.setTextHeight(3);
     
-    this.mPlayer2Score = new FontRenderable("");
+    this.mPlayer2Score = new FontRenderable(" ");
     this.mPlayer2Score.setColor([0, 0, 1, 0]);
     this.mPlayer2Score.getXform().setPosition(75, 71);
     this.mPlayer2Score.setTextHeight(3);
@@ -218,9 +229,13 @@ MyGame.prototype.drawCam = function(cam){
 
 MyGame.prototype.update = function () {
     this.updateInput();
+    
     this.updateTimer();
-    this.updateScore();
+    
     this.updateObjects();
+    
+    //if(this.)
+    this.updateScore();
 };
 
 MyGame.prototype.updateObjects = function(){
@@ -269,6 +284,7 @@ MyGame.prototype.updateInput = function () {
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
         this.mPlayer1.moveLeft();
     }
+    
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
         this.mPlayer1.moveRight();

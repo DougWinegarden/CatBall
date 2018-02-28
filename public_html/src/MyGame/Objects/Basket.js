@@ -17,7 +17,7 @@ function Basket(spriteTexture, x, y) {
     
     //this.aBasket.setColor([1, 1, 1, 0]);
     this.aBasket.getXform().setPosition(x, y);
-    this.aBasket.getXform().setSize(4, 2);
+    this.aBasket.getXform().setSize(8, 4);
     
     // need to adjust this when the drawing is made
     this.aBasket.setElementPixelPositions(0, 256, 0, 128);
@@ -26,6 +26,12 @@ function Basket(spriteTexture, x, y) {
     
     // 0 = neutral, 1 = red, 2 = blue
     this.color = 0;
+    
+    //this.initializePhysicsObjects();
+    this.physicsObjects = [
+        this.leftBar = new Bar(this, true),
+        this.rightBar = new Bar(this, false)
+    ]
     
 }
 gEngine.Core.inheritPrototype(Basket, GameObject);

@@ -20,6 +20,8 @@
  * @returns {Renderable} a new instance of Renderable.
  */
 function Renderable() {
+    console.log("new Renderable");
+    console.log(gEngine.DefaultResources.getConstColorShader());
     this.mShader = gEngine.DefaultResources.getConstColorShader();  // this is the default
     this.mXform = new Transform(); // transform that moves this object around
     this.mColor = [1, 1, 1, 1];    // color of pixel

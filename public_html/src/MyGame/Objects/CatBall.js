@@ -15,14 +15,20 @@ function CatBall(spriteTexture, player){
     //this.mCat.setColor([255, 255, 255, .5]);
     var pos = this.player.getXform().getPosition();
     //pos[1] += 10;
-    this.mCat.getXform().setPosition(pos[0], pos[1] + 5);
-    this.mCat.getXform().setSize(5, 5);
-    this.mCat.setElementPixelPositions(0, 128, 0, 128);
+    this.mCat.getXform().setPosition(pos[0], pos[1] + 4.5);
+    this.mCat.getXform().setSize(3.8, 3.8);
+    
+    if(this.player.playerNum == 1){
+        this.mCat.setElementPixelPositions(128, 128 * 2, 0, 128);
+    } else if(this.player.playerNum == 2){
+        this.mCat.setElementPixelPositions(128 * 2, 128 * 3, 0, 128);
+    }
+    
     
 
     GameObject.call(this, this.mCat);
     
-    var r = new RigidCircle(this.getXform(), 2.5);
+    var r = new RigidCircle(this.getXform(), 1.9);
     r.setMass(4);
     r.setRestitution(0.9);
     r.setInertia(0.9);
@@ -49,7 +55,7 @@ CatBall.prototype.update = function () {
     var pos = this.player.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
-        this.getXform().setPosition(pos[0], pos[1] + 5);
+        this.getXform().setPosition(pos[0], pos[1] + 4.5);
     } else if(this.state == "returning"){
         
     } else {
