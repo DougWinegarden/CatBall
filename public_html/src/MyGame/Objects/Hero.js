@@ -14,8 +14,10 @@
 function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     this.playerNum = playerNum;
     
-    
-    this.kDelta = 0.3;
+    this.xVel = 0;
+    this.yVel = 0;
+    this.kDelta = 4;
+    this.maxSpeed = 15;
     //this.canJump = false;
     this.jumping = false;
     //this.holding = true;
@@ -34,7 +36,7 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     
     this.currentAnimation.setColor([1, 1, 1, 0]);
     this.currentAnimation.getXform().setPosition(x, y);
-    this.currentAnimation.getXform().setSize(3, 3);
+    this.currentAnimation.getXform().setSize(4, 4);
 
     this.frameArray = JSONParse.mSpriteJSON.frames;
     this.currentAnimation.setSpriteSequence(
@@ -52,9 +54,10 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     
     
     // create and draw the rigidbody
-    var r = new RigidRectangle(this.getXform(), 3, 3);
+    //var r = new RigidRectangle(this.getXform(), 3, 3);
+    var r = new RigidCircle(this.getXform(), 2);
     this.setRigidBody(r);
-    //this.toggleDrawRigidShape();
+    this.toggleDrawRigidShape();
     
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
@@ -64,7 +67,15 @@ Hero.prototype.setCatBall = function(catball){
 }
 
 Hero.prototype.update = function () {
+    this.currentAnimation.updateAnimation();
+    this.getRigidBody().setAngularVelocity(0);
+    this.yVel = this.getRigidBody().getVelocity();
     
+    GameObject.prototype.update.call(this);
+};
+
+Hero.prototype.updateAnimationStatus = function(){
+    // uncomment this to see states
     /*
     if(this.playerNum == 1){
         console.log("jumping: " + this.jumping + ", facingRight: " + this.facingRight
@@ -72,14 +83,6 @@ Hero.prototype.update = function () {
         
     }
     */
-    
-    //this.updateAnimationStatus();
-    this.currentAnimation.updateAnimation();
-    this.getRigidBody().setAngularVelocity(0);
-    GameObject.prototype.update.call(this);
-};
-
-Hero.prototype.updateAnimationStatus = function(){
     
     if(this.jumping && this.facingRight && this.catBall.isHeld()){
         this.changeAnim(5);
@@ -110,6 +113,12 @@ Hero.prototype.changeAnim = function(i){
             this.frameArray[i].frame.w / 128,
             0 //no padding
             );
+    
+    if(i >=8){
+        this.currentAnimation.setAnimationSpeed(10);
+    } else {
+        this.currentAnimation.setAnimationSpeed(20);
+    }
 }
 
 Hero.prototype.draw = function(aCamera){
@@ -117,12 +126,31 @@ Hero.prototype.draw = function(aCamera){
     GameObject.prototype.draw.call(this, aCamera);
 };
 
+// Taken from Otto on Stack overflow:
+// https://stackoverflow.com/a/11409944
+Number.prototype.clamp = function(min, max) {
+  return Math.min(Math.max(this, min), max);
+};
+
+function clamp(num, min, max) {
+  return num <= min ? min : num >= max ? max : num;
+}
+
 Hero.prototype.moveLeft = function(){
     var changeAnim = false;
     if(this.facingRight){changeAnim = true;}
-        
-    this.getXform().incXPosBy(-this.kDelta);
+    
+    if(changeAnim){
+        this.xVel = 0;
+    }
+    
+    this.xVel -= this.kDelta;
+    //this.xVel.Clamp(0, this.maxSpeed)
+    //this.getXform().incXPosBy(-this.kDelta);
+    //var yVel = this.getRigidBody().getVelocity();
+    this.getRigidBody().setVelocity(clamp(this.xVel, -this.maxSpeed, this.maxSpeed), this.yVel[1]);
     this.facingRight = false;
+    
     //adjustPositionBy = function(v, delta) {
     //this.getRigidBody().adjustPositionBy(this.getXform().getPosition(), this.kDelta);
     if(changeAnim){
@@ -134,7 +162,16 @@ Hero.prototype.moveRight = function(){
     var changeAnim = false;
     if(!this.facingRight){changeAnim = true;}
     
-    this.getXform().incXPosBy(this.kDelta);
+    if(changeAnim){
+        this.xVel = 0;
+    }
+    
+    this.xVel += this.kDelta;
+    //this.xVel.Clamp(0, this.maxSpeed)
+    //this.getXform().incXPosBy(this.kDelta);
+    //console.log(this.getRigidBody());
+    //var yVel = this.getRigidBody().getVelocity();
+    this.getRigidBody().setVelocity(clamp(this.xVel, -this.maxSpeed, this.maxSpeed), this.yVel[1]);
     this.facingRight = true;
     
     if(changeAnim){
@@ -155,6 +192,8 @@ Hero.prototype.jump = function(gameObjectSet){
     if(this.canJump(gameObjectSet)){
         this.jumping = true;
         this.getRigidBody().setVelocity(0, 25);
+        
+        // the player just jumped so update the animation status
         this.updateAnimationStatus();
     }
 };

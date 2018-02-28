@@ -15,18 +15,22 @@ function CatBall(spriteTexture, player){
     //this.mCat.setColor([255, 255, 255, .5]);
     var pos = this.player.getXform().getPosition();
     //pos[1] += 10;
-    this.mCat.getXform().setPosition(pos[0], pos[1] + 4);
-    this.mCat.getXform().setSize(4, 4);
+    this.mCat.getXform().setPosition(pos[0], pos[1] + 5);
+    this.mCat.getXform().setSize(5, 5);
     this.mCat.setElementPixelPositions(0, 128, 0, 128);
     
 
     GameObject.call(this, this.mCat);
     
-    var r = new RigidCircle(this.getXform(), 2);
-    r.setMass(0.2);
-    r.setRestitution(0.5);
-    //r.setFriction(0.5);
+    var r = new RigidCircle(this.getXform(), 2.5);
+    r.setMass(4);
+    r.setRestitution(0.9);
+    r.setInertia(0.9);
+    //r.setFriction(0.5);a
     this.setRigidBody(r);
+    //this.getRidBody().setMass(0.2);
+    //this.getRidBody().setRestitution(0.5);
+    //this.getRidBody().setInertia(0.1);
     
     // state can be: held, returning, or thrown
     // state: stays on top of the player
@@ -45,7 +49,7 @@ CatBall.prototype.update = function () {
     var pos = this.player.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
-        this.getXform().setPosition(pos[0], pos[1] + 4);
+        this.getXform().setPosition(pos[0], pos[1] + 5);
     } else if(this.state == "returning"){
         
     } else {
@@ -61,7 +65,8 @@ CatBall.prototype.draw = function(aCamera){
 };
 
 CatBall.prototype.throw = function(){
-    this.player.updateAnimationStatus();
+    
+    
     if(this.state == "thrown"){
         this.state = "held";
     } else {
@@ -69,9 +74,10 @@ CatBall.prototype.throw = function(){
         var x = Math.cos((this.throwAngle / 180) * Math.PI) * 5;
         var y = Math.sin((this.throwAngle / 180) * Math.PI) * 5;
         this.getRigidBody().setVelocity(x * 5, y * 5);
-        console.log(this.getRigidBody().getVelocity());
+        //console.log(this.getRigidBody().getVelocity());
     }
     
+    this.player.updateAnimationStatus();
 };
 
 CatBall.prototype.isHeld = function(){

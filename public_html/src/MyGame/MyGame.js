@@ -1,4 +1,5 @@
 /*
+ * 
  * File: MyGame.js 
  * This is the logic of our game. 
  */
@@ -31,6 +32,7 @@ function MyGame() {
     // The camera to view the scene
     this.mCamera = null;
     this.player1Cam = null;
+    this.player2Cam = null;
     //this.mMsg = null;
     //this.mShapeMsg = null;
 
@@ -91,7 +93,7 @@ MyGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 40), // position of the camera
         100,                     // width of camera
-        [200, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
     
     
@@ -99,14 +101,21 @@ MyGame.prototype.initialize = function () {
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
                                 
     this.mPlayer1 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
+    this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
     
     this.player1Cam = new Camera(
         this.mPlayer1.getXform().getPosition(), // position of the camera
         6,                     // width of camera
-        [100, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
+        [0, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
     );
     
-    this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
+    this.player2Cam = new Camera(
+        this.mPlayer2.getXform().getPosition(), // position of the camera
+        6,                     // width of camera
+        [560, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
+    );
+    
+    
     
     this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
     this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
@@ -132,12 +141,12 @@ MyGame.prototype.initialize = function () {
     //this.unloadScene();
     
     this.mPlayer1Score = new FontRenderable("");
-    this.mPlayer1Score.setColor([1, 1, 1, 0]);
+    this.mPlayer1Score.setColor([1, 0, 0, 0]);
     this.mPlayer1Score.getXform().setPosition(25, 71);
     this.mPlayer1Score.setTextHeight(3);
     
     this.mPlayer2Score = new FontRenderable("");
-    this.mPlayer2Score.setColor([1, 1, 1, 0]);
+    this.mPlayer2Score.setColor([0, 0, 1, 0]);
     this.mPlayer2Score.getXform().setPosition(75, 71);
     this.mPlayer2Score.setTextHeight(3);
 };
@@ -170,7 +179,7 @@ MyGame.prototype.initializeBaskets = function(){
     var basket = new Basket(this.kBasketTexture, 92, 45);
     this.basketSet.push(basket);
     
-     var basket = new Basket(this.kBasketTexture, 8, 68);
+    var basket = new Basket(this.kBasketTexture, 8, 68);
     this.basketSet.push(basket);
     
     var basket = new Basket(this.kBasketTexture, 92, 68);
@@ -184,20 +193,15 @@ MyGame.prototype.initializeBaskets = function(){
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
     gEngine.Core.clearCanvas([1, 1, 1, 1.0]); // clear to white
-    
-    
-    this.mCamera.setupViewProjection();
     this.drawCam(this.mCamera);
-    
-    this.player1Cam.setupViewProjection();
     this.drawCam(this.player1Cam);
-    
+    this.drawCam(this.player2Cam);
 };
 
 MyGame.prototype.drawCam = function(cam){
     // Step A: clear the canvas
     
-    
+    cam.setupViewProjection();
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
     this.mAllObjs.draw(cam);
@@ -217,70 +221,6 @@ MyGame.prototype.update = function () {
     this.updateTimer();
     this.updateScore();
     this.updateObjects();
-   
-    
-    
-    
-    /*
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
-        //gEngine.Physics.toggleHasMotion();
-    }
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.H)) {
-        //this.radomizeVelocity();
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Left)) {
-        /*
-        this.mCurrentObj -= 1;
-        if (this.mCurrentObj < this.mFirstObject)
-            this.mCurrentObj = this.mAllObjs.size() - 1;
-            
-    }            
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
-        /*
-        this.mCurrentObj += 1;
-        if (this.mCurrentObj >= this.mAllObjs.size())
-            this.mCurrentObj = this.mFirstObject;
-            
-    }
-
-    //var obj = this.mAllObjs.getObjectAt(this.mCurrentObj);
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
-        //this.increasShapeSize(obj, MyGame.kBoundDelta);
-    }
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
-        //this.increasShapeSize(obj, -MyGame.kBoundDelta);
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.G)) {
-        /*
-        var x = 20 + Math.random() * 60;
-        var y = 75;
-        var t = Math.random() > 0.5;
-        var m = new Minion(this.kMinionSprite, x, y, t);
-        this.mAllObjs.addToSet(m);
-        
-    }
-        
-    //obj.keyControl();
-    //obj.getRigidBody().userSetsState();
-    
-    //this.mAllObjs.update(this.mCamera);
-    
-    //gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
-    
-    
-    
-    var p = obj.getXform().getPosition();
-    this.mTarget.getXform().setPosition(p[0], p[1]);
-    msg += "  P(" + gEngine.Physics.getPositionalCorrection() + 
-           " " + gEngine.Physics.getRelaxationCount() + ")" +
-           " V(" + gEngine.Physics.getHasMotion() + ")";
-    this.mMsg.setText(msg);
-    
-    this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
-    */
 };
 
 MyGame.prototype.updateObjects = function(){
@@ -303,16 +243,23 @@ MyGame.prototype.updateTimer = function () {
     this.lastTime = Date.now();
     
     if(this.mTimer <= 0){
-        var start = new GameOver();
-        gEngine.Core.startScene(start);
+        this.endGame();
     }
+}
+
+MyGame.prototype.endGame = function(){
+    var start = new GameOver(this.mPlayer1Score, this.mPlayer2Score); 
+    gEngine.Core.startScene(start);
 }
 
 MyGame.prototype.updateInput = function () {
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
         // takes user(s) back to main menu
-        var start = new IntroMenu();
-        gEngine.Core.startScene(start);
+        //var start = new IntroMenu();
+        //gEngine.Core.startScene(start);
+        
+        // Brings the user to the game over screen
+        this.endGame();
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
@@ -327,29 +274,29 @@ MyGame.prototype.updateInput = function () {
         this.mPlayer1.moveRight();
     }
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Q)) {
         if (this.mPlayer1CatBall.throwAngle < 180) {
             this.mPlayer1CatBall.throwAngle++;
         }
     }
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.V)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)) {
         if (this.mPlayer1CatBall.throwAngle > 0) {
             this.mPlayer1CatBall.throwAngle--;
         }
     }
     
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.F)) {
         this.mPlayer1CatBall.throw();
     }
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Comma)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
         if (this.mPlayer2CatBall.throwAngle < 180) {
             this.mPlayer2CatBall.throwAngle++;
         }
     }
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Period)) {
+    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O)) {
         if (this.mPlayer2CatBall.throwAngle > 0) {
             this.mPlayer2CatBall.throwAngle--;
         }
