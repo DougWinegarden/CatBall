@@ -24,9 +24,13 @@ function MyGame() {
     //this.kBasketTexture = "assets/basket1.png";
     this.kBasketTexture = "assets/3baskets.png";
     
+    this.kPlayerSprite = "assets/PlayerAnims.png";
+    this.kPlayerSpriteJSON = "assets/PlayerAnims.json";
+    
+    
     // The camera to view the scene
     this.mCamera = null;
-
+    this.player1Cam = null;
     //this.mMsg = null;
     //this.mShapeMsg = null;
 
@@ -67,6 +71,11 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
     gEngine.Textures.loadTexture(this.kBasketTexture);  
+    
+    gEngine.Textures.loadTexture(this.kPlayerSprite); 
+    //gEngine.
+            
+    gEngine.TextFileLoader.loadTextFile(this.kPlayerSpriteJSON, gEngine.TextFileLoader.eTextFileType.eTextFile);
 };
 
 MyGame.prototype.unloadScene = function () {
@@ -82,13 +91,22 @@ MyGame.prototype.initialize = function () {
     this.mCamera = new Camera(
         vec2.fromValues(50, 40), // position of the camera
         100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+        [200, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
+    
+    
     
     gEngine.DefaultResources.setGlobalAmbientIntensity(3);
                                 
-    this.mPlayer1 = new Hero(this.kPlayerTexture, 20, 10);
-    this.mPlayer2 = new Hero(this.kPlayerTexture, 80, 10);
+    this.mPlayer1 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
+    
+    this.player1Cam = new Camera(
+        this.mPlayer1.getXform().getPosition(), // position of the camera
+        10,                     // width of camera
+        [100, 600, 60 * 4, 60 * 4]         // viewport (orgX, orgY, width, height)
+    );
+    
+    this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
     
     this.mPlayer1CatBall = new CatBall(this.kRedCatBallTexture, this.mPlayer1);
     this.mPlayer2CatBall = new CatBall(this.kBlueCatBallTexture, this.mPlayer2);
@@ -162,71 +180,42 @@ MyGame.prototype.initializeBaskets = function(){
 // This is the draw function, make sure to setup proper drawing environment, and more
 // importantly, make sure to _NOT_ change any state.
 MyGame.prototype.draw = function () {
-    // Step A: clear the canvas
     gEngine.Core.clearCanvas([1, 1, 1, 1.0]); // clear to white
-
+    
+    
     this.mCamera.setupViewProjection();
+    this.drawCam(this.mCamera);
+    
+    this.player1Cam.setupViewProjection();
+    this.drawCam(this.player1Cam);
+    
+};
+
+MyGame.prototype.drawCam = function(cam){
+    // Step A: clear the canvas
+    
     
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
-    this.mAllObjs.draw(this.mCamera);
+    this.mAllObjs.draw(cam);
     
     for(var i = 0; i < this.basketSet.length; i++){
-        this.basketSet[i].draw(this.mCamera);
+        this.basketSet[i].draw(cam);
     }
     
-    this.mTimerText.draw(this.mCamera);
+    this.mTimerText.draw(cam);
     
-    this.mPlayer1Score.draw(this.mCamera);
-    this.mPlayer2Score.draw(this.mCamera);
-    
-    //this.mAllObjs.draw(this.mCamera);
-    
-    // for now draw these ...
-    /*for (var i = 0; i<this.mCollisionInfos.length; i++) 
-        this.mCollisionInfos[i].draw(this.mCamera); */
-    //this.mCollisionInfos = []; 
-    
-    //this.mTarget.draw(this.mCamera);
-    //this.mMsg.draw(this.mCamera);   // only draw status in the main camera
-    //this.mShapeMsg.draw(this.mCamera);
-};
+    this.mPlayer1Score.draw(cam);
+    this.mPlayer2Score.draw(cam);
+}
 
-/*
-MyGame.prototype.increasShapeSize = function(obj, delta) {
-    var s = obj.getRigidBody();
-    var r = s.incShapeSizeBy(delta);
-};
-*/
-
-// The Update function, updates the application state. Make sure to _NOT_ draw
-// anything from this function!
-//MyGame.kBoundDelta = 0.1;
 MyGame.prototype.update = function () {
-    //var msg = "";   
-    
     this.updateInput();
     this.updateTimer();
     this.updateScore();
-    
-    /*
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Y)) {
-        var obj = this.mAllObjs.removeFromSet(this.mPlayer1CatBall);
-        this.mCatInSet = false;
-    }
-    
-    if(!this.mCatInSet){
-        this.mPlayer1CatBall.update();
-    }
-    */
+    this.updateObjects();
    
-   for(var i = 0; i < this.basketSet.length; i++){
-        this.basketSet[i].update(this.mPlayer1CatBall, this.mPlayer2CatBall);
-    }
     
-    this.mAllObjs.update(this.mCamera);
-    
-    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
     
     
     /*
@@ -290,6 +279,16 @@ MyGame.prototype.update = function () {
     this.mShapeMsg.setText(obj.getRigidBody().getCurrentState());
     */
 };
+
+MyGame.prototype.updateObjects = function(){
+    for(var i = 0; i < this.basketSet.length; i++){
+        this.basketSet[i].update(this.mPlayer1CatBall, this.mPlayer2CatBall);
+    }
+    
+    this.mAllObjs.update(this.mCamera);
+    
+    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
+}
 
 MyGame.prototype.updateTimer = function () {
     var deltaTime = Date.now() - this.lastTime;

@@ -15,7 +15,7 @@ function CatBall(spriteTexture, focus){
     //this.mCat.setColor([255, 255, 255, .5]);
     var pos = this.focus.getXform().getPosition();
     //pos[1] += 10;
-    this.mCat.getXform().setPosition(pos[0], pos[1] + 5);
+    this.mCat.getXform().setPosition(pos[0], pos[1] + 4);
     this.mCat.getXform().setSize(4, 4);
     this.mCat.setElementPixelPositions(0, 128, 0, 128);
     
@@ -45,7 +45,7 @@ CatBall.prototype.update = function () {
     var pos = this.focus.getXform().getPosition();
     if(this.state == "held"){
         // is there any way to disable physics being calculated?
-        this.getXform().setPosition(pos[0], pos[1] + 5);
+        this.getXform().setPosition(pos[0], pos[1] + 4);
     } else if(this.state == "returning"){
         
     } else {

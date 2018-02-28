@@ -11,19 +11,58 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Hero(spriteTexture, x, y) {
+function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     this.kDelta = 0.3;
+    
+    var JSONParse = new JSONSpriteParser(spriteJSON, spriteTexture);
+    
+    var frameNum;
+    
+    if(playerNum == 1){
+        frameNum = 1;
+    } else if(playerNum == 2){
+        frameNum = 0;
+    }
+    
+    this.currentAnimation = new SpriteAnimateRenderable(spriteTexture);
+    
+    this.currentAnimation.setColor([1, 1, 1, 0]);
+    this.currentAnimation.getXform().setPosition(x, y);
+    this.currentAnimation.getXform().setSize(6, 6);
 
-    this.mDye = new SpriteRenderable(spriteTexture);
-    this.mDye.setColor([1, 1, 1, 0]);
-    this.mDye.getXform().setPosition(x, y);
-    this.mDye.getXform().setSize(3, 4);
-    this.mDye.setElementPixelPositions(0, 128, 0, 128);
+    this.frameArray = JSONParse.mSpriteJSON.frames;
+    this.currentAnimation.setSpriteSequence(
+            512 - this.frameArray[frameNum].frame.y,
+            this.frameArray[frameNum].frame.x,
+            32,
+            32,
+            this.frameArray[frameNum].frame.w / 32,
+            0 //no padding
+            );
+    this.currentAnimation.setAnimationType(SpriteAnimateRenderable.eAnimationType.eAnimateRight);
+    this.currentAnimation.setAnimationSpeed(20);
+    GameObject.call(this, this.currentAnimation);
+    // not sure if this line is needed:
+    //anim._initAnimation();
+    
+    
+    //this.animationArr = JSONParse.parsePlayerAnim(x, y);
+    //console.log(JSONParse);
+    
+    //console.log(this.animationArr[1]);
+    
+    //this.SpriteRenderables
+    //this.currentAnimation = this.animationArr[1];
+    //this.mDye = new SpriteRenderable(spriteTexture);
+    //
+    //this.mDye.getXform().setPosition(x, y);
+    //this.mDye.getXform().setSize(3, 3);
+    //this.mDye.setElementPixelPositions(0, 128, 0, 128);
     
     this.canJump = false;
-    
+    //this.currentAnimation._initAnimation();
     //this.mGameObject = new GameObject(this.mDye);
-    GameObject.call(this, this.mDye);
+    
     
     //this.mRigidBody = new RigidRectangle(this.mGameObject.getXform(), 3, 4);
     //this.setRigidBody(r);
@@ -32,7 +71,7 @@ function Hero(spriteTexture, x, y) {
     
     
     
-    var r = new RigidRectangle(this.getXform(), 3, 4);
+    var r = new RigidRectangle(this.getXform(), 3, 3);
     this.setRigidBody(r);
     
     //this.jumping = false;
@@ -48,7 +87,7 @@ Hero.prototype.update = function () {
     // need to set its angular velocity to 0 every frame so it always stands
     // up straight:
     //RigidShape.prototype.setAngularVelocity = function(w) { this.mAngularVelocity = w; };
-    
+    this.currentAnimation.updateAnimation();
     this.getRigidBody().setAngularVelocity(0);
     
     GameObject.prototype.update.call(this);
@@ -66,6 +105,7 @@ Hero.prototype.update = function () {
 };
 
 Hero.prototype.draw = function(aCamera){
+    this.currentAnimation.draw(aCamera);
     GameObject.prototype.draw.call(this, aCamera);
 };
 
