@@ -65,9 +65,11 @@ CatBall.prototype.update = function () {
        GameObject.prototype.update.call(this); 
     }
     
+    /*
     if(this.player.playerNum == 1){
         console.log(this.player.facingRight);
     }
+    */
     if(this.player.facingRight){
         this.throwAngle = clamp(this.throwAngle, 0, 90);
     } else {
