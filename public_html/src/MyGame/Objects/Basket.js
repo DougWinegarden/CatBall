@@ -27,12 +27,13 @@ function Basket(spriteTexture, x, y) {
     // 0 = neutral, 1 = red, 2 = blue
     this.color = 0;
     
+    /*
     //this.initializePhysicsObjects();
     this.physicsObjects = [
         this.leftBar = new Bar(this, true),
         this.rightBar = new Bar(this, false)
     ]
-    
+    */
 }
 gEngine.Core.inheritPrototype(Basket, GameObject);
 
@@ -40,19 +41,19 @@ Basket.prototype.update = function (ball1, ball2) {
     
     
     
-    var bound = this.getBBox();
+    //var bound = this.getBBox();
+    //var x = this.getXform().getXPos();
+    //var y = this.getXform().getYPos()
+    var bound = new BoundingBox(this.getXform().getPosition(), 6, 3) //centerPos, w, h
+    
     if (bound.intersectsBound(ball1.getBBox()) != 0) {
-        //if (this.pixelTouches(ball1)) {
-            this.color = 1;
-            this.processHit();
-        //}
+        this.color = 1;
+        this.processHit();
     }
     
     if (bound.intersectsBound(ball2.getBBox()) != 0) {
-        //if (this.pixelTouches(ball2)) {
-            this.color = 2;
-            this.processHit();
-        //}
+        this.color = 2;
+        this.processHit();
     }
     
 };

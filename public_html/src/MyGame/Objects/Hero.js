@@ -12,6 +12,7 @@
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
 function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
+    //this.animationChanged = true;
     this.playerNum = playerNum;
     
     this.xVel = 0;
@@ -76,8 +77,14 @@ Hero.prototype.setCatBall = function(catball){
 
 Hero.prototype.update = function () {
     //console.log(this.getRigidBody().getVelocity()[0]);
+    
+    if(this.xVel > 0){
+        this.xVel -= this.kDelta / 2;
+    } else if (this.xVel < 0){
+        this.xVel += this.kDelta / 2;
+    }
+    
     if(this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
-        
         this.updateAnimationStatus();
     }
     
@@ -101,8 +108,19 @@ Hero.prototype.updateAnimationStatus = function(){
     
    
     
-    
-    if(this.jumping && this.facingRight && this.catBall.isHeld()){
+    if (!this.jumping && this.facingRight && this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(2);
+    } else if (!this.jumping && this.facingRight && !this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(3);
+    } else if (!this.jumping && !this.facingRight && !this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(1);
+    } else if (!this.jumping && !this.facingRight && this.catBall.isHeld() &&
+            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
+        this.changeAnim(0);
+    } else if(this.jumping && this.facingRight && this.catBall.isHeld()){
         this.changeAnim(5);
     } else if (this.jumping && this.facingRight && !this.catBall.isHeld()){
         this.changeAnim(7);
@@ -118,19 +136,7 @@ Hero.prototype.updateAnimationStatus = function(){
         this.changeAnim(10);
     } else if (!this.jumping && !this.facingRight && !this.catBall.isHeld()){
         this.changeAnim(8);
-    } else if (!this.jumping && this.facingRight && this.catBall.isHeld() &&
-            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
-        this.changeAnim(2);
-    } else if (!this.jumping && this.facingRight && !this.catBall.isHeld() &&
-            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
-        this.changeAnim(3);
-    } else if (!this.jumping && !this.facingRight && !this.catBall.isHeld() &&
-            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
-        this.changeAnim(1);
-    } else if (!this.jumping && !this.facingRight && this.catBall.isHeld() &&
-            this.getRigidBody().getVelocity()[0] < 0.5 && this.getRigidBody().getVelocity()[0] > -0.5){
-        this.changeAnim(0);
-    }
+    } 
     
 }
 
@@ -172,9 +178,14 @@ Hero.prototype.moveLeft = function(){
     
     if(changeAnim){
         this.xVel = 0;
+        //changeAnim = false;
     }
     
+    var lastVel = this.xVel;
     this.xVel -= this.kDelta;
+    if(this.xVel <= -0.5 && lastVel > -0.5){
+        changeAnim = true;
+    }
     //this.xVel.Clamp(0, this.maxSpeed)
     //this.getXform().incXPosBy(-this.kDelta);
     //var yVel = this.getRigidBody().getVelocity();
@@ -196,7 +207,11 @@ Hero.prototype.moveRight = function(){
         this.xVel = 0;
     }
     
+    var lastVel = this.xVel;
     this.xVel += this.kDelta;
+    if(this.xVel >= 0.5 && lastVel < 0.5){
+        changeAnim = true;
+    }
     //this.xVel.Clamp(0, this.maxSpeed)
     //this.getXform().incXPosBy(this.kDelta);
     //console.log(this.getRigidBody());

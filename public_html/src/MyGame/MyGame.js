@@ -154,7 +154,8 @@ MyGame.prototype.initialize = function () {
     this.mAllPhysObjs.addToSet(this.mPlayer2CatBall);
     
     this.createBoundsStage1();
-    this.createPegsStage1();
+    //this.createPegsStage1();
+    this.createBasketsStage1();
     /*
     console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
     this.initializeBaskets();
@@ -186,18 +187,18 @@ MyGame.prototype.initialize = function () {
 };
 
 MyGame.prototype.createPegsStage1 = function() {
-    this.pegSet.push(new Peg(this.kPegTexture, 20, 20));
-    this.pegSet.push(new Peg(this.kPegTexture, 80, 20));
-    this.pegSet.push(new Peg(this.kPegTexture, 50, 8));
-    this.pegSet.push(new Peg(this.kPegTexture, 8, 8));
-    this.pegSet.push(new Peg(this.kPegTexture, 92, 8));
-    this.pegSet.push(new Peg(this.kPegTexture, 50, 45));
-    this.pegSet.push(new Peg(this.kPegTexture, 50, 35));
-    this.pegSet.push(new Peg(this.kPegTexture, 8, 45));
-    this.pegSet.push(new Peg(this.kPegTexture, 92, 45));
-    this.pegSet.push(new Peg(this.kPegTexture, 8, 68));
-    this.pegSet.push(new Peg(this.kPegTexture, 92, 68));
-    this.pegSet.push(new Peg(this.kPegTexture, 50, 64));
+    this.pegSet.push(new Peg(this.kPegTexture, 20, 20, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 80, 20, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 8, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 8, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 8, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 45, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 35, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 45, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 45, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 68, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 68, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 64, 1));
     
     for(var i = 0; i < this.pegSet.length; i++){
         this.mAllPhysObjs.addToSet(this.pegSet[i]);
@@ -205,42 +206,38 @@ MyGame.prototype.createPegsStage1 = function() {
     
 }
 
-MyGame.prototype.initializeBaskets = function(){
-    var basket = new Basket(this.kBasketTexture, 20, 20);
-    this.basketSet.push(basket);
+MyGame.prototype.createBasketsStage1 = function(){
+    //this.basketSet.push(new Basket(this.kBasketTexture, 20, 20));
+    //this.basketSet.push(new Basket(this.kBasketTexture, 80, 20));
+    this.basketSet.push(new Basket(this.kBasketTexture, 50, 8));
+    this.basketSet.push(new Basket(this.kBasketTexture, 8, 8));
+    this.basketSet.push(new Basket(this.kBasketTexture, 92, 8));
+    this.basketSet.push(new Basket(this.kBasketTexture, 50, 43.5));
+    this.basketSet.push(new Basket(this.kBasketTexture, 50, 30));
+    this.basketSet.push(new Basket(this.kBasketTexture, 8, 40));
+    this.basketSet.push(new Basket(this.kBasketTexture, 92, 40));
+    this.basketSet.push(new Basket(this.kBasketTexture, 8, 68));
+    this.basketSet.push(new Basket(this.kBasketTexture, 92, 68));
+    this.basketSet.push(new Basket(this.kBasketTexture, 50, 64));
     
-    var basket = new Basket(this.kBasketTexture, 80, 20);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 50, 8);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 8, 8);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 92, 8);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 50, 45);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 50, 35);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 8, 45);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 92, 45);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 8, 68);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 92, 68);
-    this.basketSet.push(basket);
-    
-    var basket = new Basket(this.kBasketTexture, 50, 64);
-    this.basketSet.push(basket);
+    /*
+    if(left){
+        this.mBar.setPosition(basket.getXform().getXPos() - 3.5, basket.getXform().getYPos() + 1.5);
+    } else {
+        this.mBar.setPosition(basket.getXform().getXPos() + 3.5, basket.getXform().getYPos() + 1.5);
+    }
+    */
+    //console.log(this.basketSet);
+    for(var i = 0; i < this.basketSet.length; i++){
+        
+        var y = this.basketSet[i].getXform().getYPos();
+        var x = this.basketSet[i].getXform().getXPos();
+        //var rightx = this.basketSet[i].getXform().getXPos() + 3.5;
+        var pegR = .5;
+        this.mAllPhysObjs.addToSet(new Peg(this.kPegTexture, x - 3.5, y + 1.5, pegR));
+        this.mAllPhysObjs.addToSet(new Peg(this.kPegTexture, x + 3.5, y + 1.5, pegR));
+        this.invisPlatformAt(x, y - 2, 8, 0);//(x, y, w, rot) 
+    }
 }
 
 // This is the draw function, make sure to setup proper drawing environment, and more
@@ -299,8 +296,8 @@ MyGame.prototype.updateObjects = function(){
     
     
     this.mAllObjs.update(this.mCamera);
-    this.mPlayer1.updateJumpStatus(this.mAllObjs);
-    this.mPlayer2.updateJumpStatus(this.mAllObjs);
+    this.mPlayer1.updateJumpStatus(this.mAllPhysObjs);
+    this.mPlayer2.updateJumpStatus(this.mAllPhysObjs);
     
     gEngine.Physics.processCollision(this.mAllPhysObjs, this.mCollisionInfos);
 }

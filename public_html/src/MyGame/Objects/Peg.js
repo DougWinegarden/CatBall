@@ -7,13 +7,13 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Peg(texture, x, y) {
+function Peg(texture, x, y, r) {
     
     this.aPeg = new TextureRenderable(texture)
     
     //this.aPeg.setColor([1, 1, 1, 0]);
     this.aPeg.getXform().setPosition(x, y);
-    this.aPeg.getXform().setSize(2.2, 2.2);
+    this.aPeg.getXform().setSize(r * 2.1, r * 2.2);
     
     // need to adjust this when the drawing is made
     //this.aPeg.setElementPixelPositions(0, 256, 0, 128);
@@ -31,14 +31,14 @@ function Peg(texture, x, y) {
     ]
     */
    
-    var r = new RigidCircle(this.getXform(), 1);
+    var r = new RigidCircle(this.getXform(), r);
     r.setMass(0);
     //r.setRestitution(0.9);
     //r.setInertia(0.9);
     //r.setFriction(0.5);a
     this.setRigidBody(r);
     
-    //this.toggleDrawRigidShape();
+    this.toggleDrawRigidShape();
     
 }
 gEngine.Core.inheritPrototype(Peg, GameObject);

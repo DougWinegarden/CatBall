@@ -91,5 +91,23 @@ MyGame.prototype.platformAt = function (x, y, w, rot) {
     this.mAllPhysObjs.addToSet(g);
 };
 
+MyGame.prototype.invisPlatformAt = function (x, y, w, rot) {
+    var h = w / 8;
+    var p = new TextureRenderable(this.kPlatformTexture);
+    var xf = p.getXform();
+    
+    var g = new GameObject(p);
+    var r = new RigidRectangle(xf, w, h);
+    g.setRigidBody(r);
+    g.toggleDrawRenderable();
+    //g.toggleDrawRigidShape();
+    
+    r.setMass(0);
+    xf.setSize(w, h);
+    xf.setPosition(x, y);
+    xf.setRotationInDegree(rot);
+    this.mAllObjs.addToSet(g);
+    this.mAllPhysObjs.addToSet(g);
+};
 
     
