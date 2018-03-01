@@ -88,6 +88,51 @@ MyGame.prototype.createBoundsStage2 = function() {
     xf.setSize(3, 3);
 };
 
+MyGame.prototype.createBoundsStage3 = function() {
+    var x = 15, w = 30, y = 4;
+    for (x = 15; x < 120; x+=30) 
+        this.platformAt(x, y, w, 0);
+    y = 76;
+    for (x = 15; x < 120; x+=30) 
+        this.platformAt(x, y, w, 180);
+    
+    
+    this.platformAt(50, 30, 40, 0);
+    
+    this.platformAt(10, 20, 10, 0);
+    this.platformAt(90, 20, 10, 0);
+    
+    this.platformAt(35, 18, 10, 0);
+    this.platformAt(65, 18, 10, 0);
+    
+    this.wallAt(31, 20, 1.5); //(x, y, w) {
+    this.wallAt(69, 20, 1.5);
+    
+    this.wallAt(30, 40, 2); //(x, y, w) {
+    this.wallAt(70, 40, 2);
+    
+    this.wallAt(30, 55, 2); //(x, y, w) {
+    this.wallAt(70, 55, 2);
+    
+    this.wallAt(42.5, 22, 2.5); //(x, y, w) {
+    this.wallAt(57.5, 22, 2.5);
+
+    //this.platformAt(50, 60, 30, 0); //(x, y, w, rot) {
+    
+    x = 2;
+    w = 3;
+    for (y = 8; y < 90; y+=12) 
+        this.wallAt(x, y, w);
+    x = 98;
+    for (y = 8; y < 90; y+=12) 
+        this.wallAt(x, y, w);
+    
+    var r = new TextureRenderable(this.kTargetTexture);
+    this.mTarget = new GameObject(r);
+    var xf = r.getXform();
+    xf.setSize(3, 3);
+};
+
 MyGame.prototype.createPegsStage1 = function() {
     this.pegSet.push(new Peg(this.kPegTexture, 20, 20, 1));
     this.pegSet.push(new Peg(this.kPegTexture, 80, 20, 1));
@@ -136,6 +181,25 @@ MyGame.prototype.createBasketsStage2 = function(){
     this.initPhysForBaskets();
 }
 
+MyGame.prototype.createBasketsStage3 = function(){
+    //this.basketSet.push(new Basket(this.kBasketTexture, 50, 40));
+    this.basketSet.push(new Basket(this.kBasketTexture, 50, 38));
+    
+    this.basketSet.push(new Basket(this.kBasketTexture, 40, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, 60, 38));
+    
+    this.basketSet.push(new Basket(this.kBasketTexture, 10, 50));
+    this.basketSet.push(new Basket(this.kBasketTexture, 90, 50));
+    
+    this.basketSet.push(new Basket(this.kBasketTexture, 37, 21));
+    this.basketSet.push(new Basket(this.kBasketTexture, 63, 21));
+    
+    //this.basketSet.push(new Basket(this.kBasketTexture, 15, 60));
+    //this.basketSet.push(new Basket(this.kBasketTexture, 85, 60));
+
+    this.initPhysForBaskets();
+}
+
 MyGame.prototype.createPegsStage2 = function() {
     this.pegSet.push(new Peg(this.kPegTexture, 10, 70, 1));
     this.pegSet.push(new Peg(this.kPegTexture, 90, 70, 1));
@@ -175,13 +239,48 @@ MyGame.prototype.createPegsStage2 = function() {
     this.pegSet.push(new Peg(this.kPegTexture, 45, 25, 1));
     this.pegSet.push(new Peg(this.kPegTexture, 55, 25, 1));
     
-    //this.pegSet.push(new Peg(this.kPegTexture, 45, 8, 1));
-    //this.pegSet.push(new Peg(this.kPegTexture, 55, 8, 1));
+    for(var i = 0; i < this.pegSet.length; i++){
+        this.mAllPhysObjs.addToSet(this.pegSet[i]);
+    }
     
+}
+
+MyGame.prototype.createPegsStage3 = function() {
+    this.pegSet.push(new Peg(this.kPegTexture, 15, 60, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 85, 60, 1));
     
+    this.pegSet.push(new Peg(this.kPegTexture, 10, 55, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 90, 55, 1));
     
+    this.pegSet.push(new Peg(this.kPegTexture, 20, 55, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 80, 55, 1));
     
+    this.pegSet.push(new Peg(this.kPegTexture, 10, 15, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 90, 15, 1));
     
+    this.pegSet.push(new Peg(this.kPegTexture, 40, 20, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 60, 20, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 35, 20, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 65, 20, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 40, 24, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 60, 24, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 46, 24, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 54, 24, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 40, 35, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 60, 35, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 35, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 45, 40, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 55, 40, 1));
+    
+    this.pegSet.push(new Peg(this.kPegTexture, 35, 40, 1));
+    this.pegSet.push(new Peg(this.kPegTexture, 65, 40, 1));
+
     for(var i = 0; i < this.pegSet.length; i++){
         this.mAllPhysObjs.addToSet(this.pegSet[i]);
     }

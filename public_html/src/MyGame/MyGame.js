@@ -167,11 +167,14 @@ MyGame.prototype.initialize = function () {
     //this.mAllPhysObjs.addToSet(this.mPlayer2ThrowIndicator);
     
     //this.createBoundsStage1();
-    this.createBoundsStage2();
+    //this.createBoundsStage2();
+    this.createBoundsStage3();
     //this.createPegsStage1();
     //this.createBasketsStage1();
     //this.createBasketsStage2();
-    this.createPegsStage2();
+    //this.createBasketsStage3();
+    //this.createPegsStage2();
+    this.createPegsStage3();
     /*
     console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
     this.initializeBaskets();
