@@ -27,6 +27,7 @@ function MyGame() {
     this.kBasketTexture = "assets/Baskets.png";
     this.kPlayerSprite = "assets/PlayerAnimSprite.png";
     this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
+    this.kIndicatorSprite = "assets/ThrowIndicators.png";
     
     this.kPegTexture = "assets/PegTexture.png";
     
@@ -45,13 +46,18 @@ function MyGame() {
     this.mPlayer1 = null;
     this.mPlayer2 = null;
     
+    
+    
     this.mPlayer1CatBall = null;
     this.mPlayer2CatBall = null;
+    
+    this.mPlayer1ThrowIndicator = null;
+    this.mPlayer2ThrowIndicator = null;
     
     this.basketSet = [];
     this.pegSet = [];
     
-    this.mTimer = 60000;
+    this.mTimer = 120000;
     //this.deltaTime = 0;
     this.lastTime = Date.now();
     this.mTimerText = null;
@@ -78,6 +84,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
     gEngine.Textures.loadTexture(this.kBasketTexture);  
     gEngine.Textures.loadTexture(this.kPegTexture);  
+    gEngine.Textures.loadTexture(this.kIndicatorSprite);  
     
     gEngine.Textures.loadTexture(this.kPlayerSprite); 
     //gEngine.
@@ -97,6 +104,7 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kPlayerTexture);  
     gEngine.Textures.unloadTexture(this.kBasketTexture);  
     gEngine.Textures.unloadTexture(this.kPegTexture);  
+    gEngine.Textures.unloadTexture(this.kIndicatorSprite);
     
     gEngine.Textures.unloadTexture(this.kPlayerSprite); 
     //gEngine.
@@ -138,13 +146,16 @@ MyGame.prototype.initialize = function () {
     this.mPlayer1.setCatBall(this.mPlayer1CatBall);
     this.mPlayer2.setCatBall(this.mPlayer2CatBall);
     
-    
+    this.mPlayer1ThrowIndicator = new ThrowIndicator(this.kIndicatorSprite, this.mPlayer1);
+    this.mPlayer2ThrowIndicator = new ThrowIndicator(this.kIndicatorSprite, this.mPlayer2);
     
     this.mAllObjs = new GameObjectSet();
     this.mAllPhysObjs = new GameObjectSet();
     
     this.mAllObjs.addToSet(this.mPlayer1);
     this.mAllObjs.addToSet(this.mPlayer2);
+    //this.mAllObjs.addToSet(this.mPlayer1CatBall);
+    //this.mAllObjs.addToSet(this.mPlayer2CatBall);
     this.mAllObjs.addToSet(this.mPlayer1CatBall);
     this.mAllObjs.addToSet(this.mPlayer2CatBall);
     
@@ -152,6 +163,8 @@ MyGame.prototype.initialize = function () {
     this.mAllPhysObjs.addToSet(this.mPlayer2);
     this.mAllPhysObjs.addToSet(this.mPlayer1CatBall);
     this.mAllPhysObjs.addToSet(this.mPlayer2CatBall);
+    //this.mAllPhysObjs.addToSet(this.mPlayer1ThrowIndicator);
+    //this.mAllPhysObjs.addToSet(this.mPlayer2ThrowIndicator);
     
     this.createBoundsStage1();
     //this.createPegsStage1();
@@ -256,7 +269,8 @@ MyGame.prototype.drawCam = function(cam){
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
     this.mAllObjs.draw(cam);
-    
+    this.mPlayer1ThrowIndicator.draw(cam);
+    this.mPlayer2ThrowIndicator.draw(cam);
     
     for(var i = 0; i < this.basketSet.length; i++){
         this.basketSet[i].draw(cam);
@@ -296,6 +310,8 @@ MyGame.prototype.updateObjects = function(){
     
     
     this.mAllObjs.update(this.mCamera);
+    this.mPlayer1ThrowIndicator.update(this.mPlayer1CatBall);
+    this.mPlayer2ThrowIndicator.update(this.mPlayer2CatBall);
     this.mPlayer1.updateJumpStatus(this.mAllPhysObjs);
     this.mPlayer2.updateJumpStatus(this.mAllPhysObjs);
     
@@ -349,15 +365,15 @@ MyGame.prototype.updateInput = function () {
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Q)) {
-        if (this.mPlayer1CatBall.throwAngle < 180) {
+        //if (this.mPlayer1CatBall.throwAngle < 90) {
             this.mPlayer1CatBall.throwAngle++;
-        }
+        //}
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)) {
-        if (this.mPlayer1CatBall.throwAngle > 0) {
+        //if (this.mPlayer1CatBall.throwAngle > 0) {
             this.mPlayer1CatBall.throwAngle--;
-        }
+        //}
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.F)) {
@@ -365,15 +381,15 @@ MyGame.prototype.updateInput = function () {
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
-        if (this.mPlayer2CatBall.throwAngle < 180) {
+        //if (this.mPlayer2CatBall.throwAngle < 90) {
             this.mPlayer2CatBall.throwAngle++;
-        }
+        //}
     }
     
     if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O)) {
-        if (this.mPlayer2CatBall.throwAngle > 0) {
+        //if (this.mPlayer2CatBall.throwAngle > 0) {
             this.mPlayer2CatBall.throwAngle--;
-        }
+        //}
     }
     
     if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {

@@ -174,7 +174,10 @@ function clamp(num, min, max) {
 
 Hero.prototype.moveLeft = function(){
     var changeAnim = false;
-    if(this.facingRight){changeAnim = true;}
+    if(this.facingRight){
+        changeAnim = true;
+        this.changeThrowDirection();
+    }
     
     if(changeAnim){
         this.xVel = 0;
@@ -196,12 +199,17 @@ Hero.prototype.moveLeft = function(){
     //this.getRigidBody().adjustPositionBy(this.getXform().getPosition(), this.kDelta);
     if(changeAnim){
         this.updateAnimationStatus();
+        //this.changeThrowDirection();
+        //this.changedDirection();
     }
 };
 
 Hero.prototype.moveRight = function(){
     var changeAnim = false;
-    if(!this.facingRight){changeAnim = true;}
+    if(!this.facingRight){
+        changeAnim = true;
+        this.changeThrowDirection();
+    }
     
     if(changeAnim){
         this.xVel = 0;
@@ -221,8 +229,19 @@ Hero.prototype.moveRight = function(){
     
     if(changeAnim){
         this.updateAnimationStatus();
+        
     }
 };
+
+Hero.prototype.changeThrowDirection = function(){
+    if(this.catBall.throwAngle > 90){
+        var a = this.catBall.throwAngle - 90;
+        this.catBall.throwAngle = 90 - a;
+    } else if(this.catBall.throwAngle < 90){
+        var a = 90 - this.catBall.throwAngle;
+        this.catBall.throwAngle = 90 + a;
+    }
+}
 
 Hero.prototype.updateJumpStatus = function(gameObjectSet){
     var prevJump = this.jumping;

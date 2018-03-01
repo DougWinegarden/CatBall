@@ -45,6 +45,9 @@ function CatBall(spriteTexture, player){
     this.state = "held";
     
     this.throwAngle = 60;
+    if(this.player.playerNum == 2){
+        this.throwAngle = 120;
+    }
     
     //this.toggleDrawRigidShape();
 }
@@ -61,6 +64,16 @@ CatBall.prototype.update = function () {
     } else {
        GameObject.prototype.update.call(this); 
     }
+    
+    if(this.player.playerNum == 1){
+        console.log(this.player.facingRight);
+    }
+    if(this.player.facingRight){
+        this.throwAngle = clamp(this.throwAngle, 0, 90);
+    } else {
+        this.throwAngle = clamp(this.throwAngle, 90, 180);
+    }
+    
     
     //console.log(this.getRigidBody().getRestitution());
     
