@@ -23,7 +23,7 @@ MyGame.prototype.radomizeVelocity = function()
     }
 };
 
-MyGame.prototype.createBounds = function() {
+MyGame.prototype.createBoundsStage1 = function() {
     var x = 15, w = 30, y = 4;
     for (x = 15; x < 120; x+=30) 
         this.platformAt(x, y, w, 0);
@@ -69,6 +69,7 @@ MyGame.prototype.wallAt = function (x, y, w) {
     xf.setSize(w, h);
     xf.setPosition(x, y);
     this.mAllObjs.addToSet(g);
+    this.mAllPhysObjs.addToSet(g);
 };
 
 MyGame.prototype.platformAt = function (x, y, w, rot) {
@@ -87,6 +88,7 @@ MyGame.prototype.platformAt = function (x, y, w, rot) {
     xf.setPosition(x, y);
     xf.setRotationInDegree(rot);
     this.mAllObjs.addToSet(g);
+    this.mAllPhysObjs.addToSet(g);
 };
 
 

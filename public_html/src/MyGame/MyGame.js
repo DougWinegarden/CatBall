@@ -28,6 +28,8 @@ function MyGame() {
     this.kPlayerSprite = "assets/PlayerAnimSprite.png";
     this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
     
+    this.kPegTexture = "assets/PegTexture.png";
+    
     
     // The camera to view the scene
     this.mCamera = null;
@@ -37,6 +39,7 @@ function MyGame() {
     //this.mShapeMsg = null;
 
     this.mAllObjs = null;
+    this.mAllPhysObjs = null;
     //this.mBounds = null;
     this.mCollisionInfos = [];
     this.mPlayer1 = null;
@@ -46,6 +49,7 @@ function MyGame() {
     this.mPlayer2CatBall = null;
     
     this.basketSet = [];
+    this.pegSet = [];
     
     this.mTimer = 60000;
     //this.deltaTime = 0;
@@ -73,6 +77,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
     gEngine.Textures.loadTexture(this.kBasketTexture);  
+    gEngine.Textures.loadTexture(this.kPegTexture);  
     
     gEngine.Textures.loadTexture(this.kPlayerSprite); 
     //gEngine.
@@ -81,12 +86,22 @@ MyGame.prototype.loadScene = function () {
 };
 
 MyGame.prototype.unloadScene = function () {
-    //gEngine.Textures.unloadTexture(this.kMinionSprite);
-    //gEngine.Textures.unloadTexture(this.kPlatformTexture);
-   // gEngine.Textures.unloadTexture(this.kWallTexture);
-    //gEngine.Textures.unloadTexture(this.kTargetTexture);
+    gEngine.Textures.unloadTexture(this.kMinionSprite);
+    gEngine.Textures.unloadTexture(this.kPlatformTexture);
+    gEngine.Textures.unloadTexture(this.kWallTexture);
+    gEngine.Textures.unloadTexture(this.kTargetTexture);
     
+    gEngine.Textures.unloadTexture(this.kCatBallTexture); 
+    gEngine.Textures.unloadTexture(this.kRedCatBallTexture);  
+    gEngine.Textures.unloadTexture(this.kBlueCatBallTexture);  
+    gEngine.Textures.unloadTexture(this.kPlayerTexture);  
+    gEngine.Textures.unloadTexture(this.kBasketTexture);  
+    gEngine.Textures.unloadTexture(this.kPegTexture);  
     
+    gEngine.Textures.unloadTexture(this.kPlayerSprite); 
+    //gEngine.
+            
+    gEngine.TextFileLoader.unloadTextFile(this.kPlayerSpriteJSON, gEngine.TextFileLoader.eTextFileType.eTextFile);
 };
 
 MyGame.prototype.initialize = function () {
@@ -126,14 +141,21 @@ MyGame.prototype.initialize = function () {
     
     
     this.mAllObjs = new GameObjectSet();
+    this.mAllPhysObjs = new GameObjectSet();
     
     this.mAllObjs.addToSet(this.mPlayer1);
     this.mAllObjs.addToSet(this.mPlayer2);
     this.mAllObjs.addToSet(this.mPlayer1CatBall);
     this.mAllObjs.addToSet(this.mPlayer2CatBall);
     
-    this.createBounds();
+    this.mAllPhysObjs.addToSet(this.mPlayer1);
+    this.mAllPhysObjs.addToSet(this.mPlayer2);
+    this.mAllPhysObjs.addToSet(this.mPlayer1CatBall);
+    this.mAllPhysObjs.addToSet(this.mPlayer2CatBall);
     
+    this.createBoundsStage1();
+    this.createPegsStage1();
+    /*
     console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
     this.initializeBaskets();
     
@@ -143,6 +165,7 @@ MyGame.prototype.initialize = function () {
         }
         
     }
+    */
     
     
     this.mTimerText = new FontRenderable("" + Math.round(this.mTimer / 1000));
@@ -161,6 +184,26 @@ MyGame.prototype.initialize = function () {
     this.mPlayer2Score.getXform().setPosition(75, 71);
     this.mPlayer2Score.setTextHeight(3);
 };
+
+MyGame.prototype.createPegsStage1 = function() {
+    this.pegSet.push(new Peg(this.kPegTexture, 20, 20));
+    this.pegSet.push(new Peg(this.kPegTexture, 80, 20));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 8));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 8));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 8));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 45));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 35));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 45));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 45));
+    this.pegSet.push(new Peg(this.kPegTexture, 8, 68));
+    this.pegSet.push(new Peg(this.kPegTexture, 92, 68));
+    this.pegSet.push(new Peg(this.kPegTexture, 50, 64));
+    
+    for(var i = 0; i < this.pegSet.length; i++){
+        this.mAllPhysObjs.addToSet(this.pegSet[i]);
+    }
+    
+}
 
 MyGame.prototype.initializeBaskets = function(){
     var basket = new Basket(this.kBasketTexture, 20, 20);
@@ -217,10 +260,16 @@ MyGame.prototype.drawCam = function(cam){
     //this.mPlayer1CatBall.draw(this.mCamera); 
     this.mAllObjs.draw(cam);
     
+    
     for(var i = 0; i < this.basketSet.length; i++){
         this.basketSet[i].draw(cam);
     }
     
+    for(var i = 0; i < this.pegSet.length; i++){
+        this.pegSet[i].draw(cam);
+    }
+    
+   
     this.mTimerText.draw(cam);
     
     this.mPlayer1Score.draw(cam);
@@ -239,15 +288,21 @@ MyGame.prototype.update = function () {
 };
 
 MyGame.prototype.updateObjects = function(){
+    
     for(var i = 0; i < this.basketSet.length; i++){
         this.basketSet[i].update(this.mPlayer1CatBall, this.mPlayer2CatBall);
     }
+    
+    for(var i = 0; i < this.pegSet.length; i++){
+        this.pegSet[i].update(this.mPlayer1CatBall, this.mPlayer2CatBall);
+    }
+    
     
     this.mAllObjs.update(this.mCamera);
     this.mPlayer1.updateJumpStatus(this.mAllObjs);
     this.mPlayer2.updateJumpStatus(this.mAllObjs);
     
-    gEngine.Physics.processCollision(this.mAllObjs, this.mCollisionInfos);
+    gEngine.Physics.processCollision(this.mAllPhysObjs, this.mCollisionInfos);
 }
 
 MyGame.prototype.updateTimer = function () {
@@ -263,8 +318,14 @@ MyGame.prototype.updateTimer = function () {
 }
 
 MyGame.prototype.endGame = function(){
+    
     var start = new GameOver(this.mPlayer1Score, this.mPlayer2Score); 
+    
     gEngine.Core.startScene(start);
+    
+    // unloading scene gives gEngine.retrieveAsset: [assets/playerAnimSprite.png] error,
+    // but keeping the scene loaded will cause lag when playing again
+    //this.unloadScene();
 }
 
 MyGame.prototype.updateInput = function () {
@@ -338,6 +399,7 @@ MyGame.prototype.updateInput = function () {
 MyGame.prototype.updateScore = function () {
     var score1 = 0;
     var score2 = 0;
+    
     for (var i  = 0; i < this.basketSet.length; i++) {
         if (this.basketSet[i].color == 1) {
             score1++;
@@ -345,6 +407,15 @@ MyGame.prototype.updateScore = function () {
             score2++;
         }
     }
+    
+    for (var i  = 0; i < this.pegSet.length; i++) {
+        if (this.pegSet[i].color == 1) {
+            score1++;
+        } else if (this.pegSet[i].color == 2) {
+            score2++;
+        }
+    }
+    
     this.mPlayer1Score.setText("" + score1);
     this.mPlayer2Score.setText("" + score2);
 }

@@ -34,7 +34,12 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     var JSONParse = new JSONSpriteParser(spriteJSON, spriteTexture);
     this.currentAnimation = new SpriteAnimateRenderable(spriteTexture);
     
-    this.currentAnimation.setColor([1, 1, 1, 0]);
+    if(this.playerNum == 1){
+        this.currentAnimation.setColor([1, 0, 0, 0]);
+    } else if(playerNum = 2){
+        this.currentAnimation.setColor([0, 0, 1, 0]);
+    }
+    //this.currentAnimation.setColor([1, 1, 1, 0]);
     this.currentAnimation.getXform().setPosition(x, y);
     this.currentAnimation.getXform().setSize(4, 4);
 
