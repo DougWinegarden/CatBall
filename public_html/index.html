@@ -124,6 +124,17 @@
             body{
                 background-color: #00091a
             }
+            
+            #controls {
+                position: relative;
+                left: 100px;
+                top: 900px;
+            }
+            
+            p{
+                color: white;
+                font-size: 15px;
+            }
         </style>
     </head>
 
@@ -133,10 +144,19 @@
         //var gMyGame = new MyGame();
         gEngine.Core.initializeEngineCore('GLCanvas', startGame);
      ">
-        <canvas id="GLCanvas" width="800" height="800">
-            <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
-            Your browser does not support the HTML5 canvas.
-            <!-- this message will show only if WebGL clearing failed -->
-        </canvas>
+        
+            <canvas id="GLCanvas" width="800" height="800">
+                <!-- GLCanvas is the area we will draw in: a 640x480 area. -->
+                Your browser does not support the HTML5 canvas.
+                <!-- this message will show only if WebGL clearing failed -->
+            </canvas>
+        
+        <div id = "controls">
+            <p>
+                Made By: Douglas Winegarden, Jimmy Lau, Joshua Plantilla
+            </p>
+            <img src="assets/Controls.png">
+        </div>
+        
     </body>
 </html>

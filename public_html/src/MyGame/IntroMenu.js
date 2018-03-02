@@ -23,6 +23,9 @@ function IntroMenu() {
     //this.elements = [this.start, this.options, this.credits];
     this.elements = [];
     this.selectedElement = null;
+    
+    this.drawOptions = false;
+    this.optionsElements = [];
     //this.start = null;
 }
 gEngine.Core.inheritPrototype(IntroMenu, Scene);
@@ -45,9 +48,9 @@ IntroMenu.prototype.initialize = function () {
     this.logo = new MenuElement("Cat Ball", 36, 70, 5);
     this.start = new MenuElement("Start", 30, 50, 3);
     this.options = new MenuElement("Options", 30, 40, 3);
-    this.credits = new MenuElement("Credits", 30, 30, 3);
+    //this.credits = new MenuElement("Credits", 30, 30, 3);
     
-    this.elements = [this.start, this.options, this.credits];
+    this.elements = [this.start, this.options];
     
     this.selectedElement = this.start;
     //this.myGame = new MyGame();
@@ -55,7 +58,8 @@ IntroMenu.prototype.initialize = function () {
     this.selectionArrow.getXform().setSize(3, 3);
     //this.selectionArrow.se
     
-    
+    //this.drawOptions = false;
+    this.optionsElements = [];
 };
 
 IntroMenu.prototype.draw = function () {
@@ -90,15 +94,27 @@ IntroMenu.prototype.update = function () {
    }
    
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W) || 
-           gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
-        //gEngine.Physics.togglePositionalCorrection();
-        //this.unloadScene();
-        if(this.selectedElement == this.start){
-            var start = new MyGame();
-            gEngine.Core.startScene(start);
-        }
-        
-        
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
+
+        // move selection index up
+   }
+   
+   if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S) || 
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.K)) {
+
+        // move selection index down
+   }
+   
+   if (gEngine.Input.isKeyClicked(gEngine.Input.keys.A) || 
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
+
+        // move selection index left
+   }
+   
+   if (gEngine.Input.isKeyClicked(gEngine.Input.keys.D) || 
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.L)) {
+
+        // move selection index right
    }
 };
 

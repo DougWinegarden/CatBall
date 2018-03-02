@@ -404,7 +404,7 @@ MyGame.prototype.updateInput = function () {
     
     
     if(!this.gameOver){
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Esc)) {
             // takes user(s) back to main menu
             //var start = new IntroMenu();
             //gEngine.Core.startScene(start);
@@ -425,35 +425,35 @@ MyGame.prototype.updateInput = function () {
             this.mPlayer1.moveRight();
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Q)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
             //if (this.mPlayer1CatBall.throwAngle < 90) {
                 this.mPlayer1CatBall.throwAngle++;
             //}
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.B)) {
             //if (this.mPlayer1CatBall.throwAngle > 0) {
                 this.mPlayer1CatBall.throwAngle--;
             //}
         }
 
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.F)) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.V)) {
             this.mPlayer1CatBall.throw();
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Comma)) {
             //if (this.mPlayer2CatBall.throwAngle < 90) {
                 this.mPlayer2CatBall.throwAngle++;
             //}
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.QM)) {
             //if (this.mPlayer2CatBall.throwAngle > 0) {
                 this.mPlayer2CatBall.throwAngle--;
             //}
         }
 
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Period)) {
             this.mPlayer2CatBall.throw();
         }
 

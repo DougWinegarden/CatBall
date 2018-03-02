@@ -79,6 +79,7 @@ gEngine.Input = (function () {
         Comma: 188,
         Period: 190,
         Enter: 13,
+        QM: 191,
 
         LastKeyCode: 222
     };
@@ -112,6 +113,9 @@ gEngine.Input = (function () {
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
     var _onKeyDown = function (event) {
+        if(event.keyCode == 32 && event.target == document.body) {
+            event.preventDefault();
+          }
         mIsKeyPressed[event.keyCode] = true;
     };
     var _onKeyUp = function (event) {
