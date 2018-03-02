@@ -14,6 +14,8 @@
 function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     //this.animationChanged = true;
     this.playerNum = playerNum;
+    this.startX = x;
+    this.startY = y;
     
     this.xVel = 0;
     this.yVel = 0;
@@ -67,9 +69,27 @@ function Hero(spriteTexture, spriteJSON, x, y, playerNum) {
     r.setInertia(0.01);
     this.setRigidBody(r);
     //this.toggleDrawRigidShape();
+    //this.gameOver = false;
     
 }
 gEngine.Core.inheritPrototype(Hero, GameObject);
+
+Hero.prototype.resetPlayer = function(){
+    this.getRigidBody().setVelocity(0, 0);
+    this.getXform().setPosition(this.startX, this.startY);
+    //this.gameOver = true;
+    this.catBall.state = "held";
+    
+    if(this.playerNum == 1){
+        this.catBall.throwAngle = 60;
+        this.facingRight = true;
+    } else if (this.playerNum == 2){
+        this.catBall.throwAngle = 120;
+        this.facingRight = false;
+    }
+    //this.dance = true;
+}
+
 
 Hero.prototype.setCatBall = function(catball){
     this.catBall = catball;
@@ -176,7 +196,7 @@ Hero.prototype.moveLeft = function(){
     var changeAnim = false;
     if(this.facingRight){
         changeAnim = true;
-        this.changeThrowDirection();
+        //this.changeThrowDirection();
     }
     
     if(changeAnim){
@@ -208,7 +228,7 @@ Hero.prototype.moveRight = function(){
     var changeAnim = false;
     if(!this.facingRight){
         changeAnim = true;
-        this.changeThrowDirection();
+        //this.changeThrowDirection();
     }
     
     if(changeAnim){

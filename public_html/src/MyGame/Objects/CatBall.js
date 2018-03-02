@@ -70,11 +70,13 @@ CatBall.prototype.update = function () {
         console.log(this.player.facingRight);
     }
     */
+    /*
     if(this.player.facingRight){
         this.throwAngle = clamp(this.throwAngle, 0, 90);
     } else {
         this.throwAngle = clamp(this.throwAngle, 90, 180);
     }
+    */
     
     
     //console.log(this.getRigidBody().getRestitution());

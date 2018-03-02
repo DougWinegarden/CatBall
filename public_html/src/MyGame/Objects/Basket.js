@@ -58,6 +58,11 @@ Basket.prototype.update = function (ball1, ball2) {
     
 };
 
+Basket.prototype.reset = function(){
+    this.color = 0;
+    this.processHit();
+}
+
 Basket.prototype.processHit = function(){
     /*
     // assuming that all three basket colors will be on the same image and spaced apart
@@ -73,6 +78,8 @@ Basket.prototype.processHit = function(){
     } else if (this.color == 2) {
         this.aBasket.setElementPixelPositions(256 * 2, 256 * 3, 0, 128);
         //this.aBasket.setColor([0, 0, 1, 0]);
+    } else if(this.color == 0){
+        this.aBasket.setElementPixelPositions(0, 256, 0, 128);
     }
 }
 

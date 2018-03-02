@@ -57,7 +57,7 @@ function MyGame() {
     this.basketSet = [];
     this.pegSet = [];
     
-    this.mTimer = 120000;
+    this.mTimer = 10000;
     //this.deltaTime = 0;
     this.lastTime = Date.now();
     this.mTimerText = null;
@@ -68,6 +68,8 @@ function MyGame() {
     //this.mTarget = null;
     
     //this.mCatInSet = true;
+    this.mGameOverScreen = null;
+    this.gameOver = null;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -112,33 +114,31 @@ MyGame.prototype.unloadScene = function () {
     gEngine.TextFileLoader.unloadTextFile(this.kPlayerSpriteJSON, gEngine.TextFileLoader.eTextFileType.eTextFile);
 };
 
-MyGame.prototype.initialize = function () {
-    this.mCamera = new Camera(
-        vec2.fromValues(50, 40), // position of the camera
-        100,                     // width of camera
-        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
-    );
+/*
+MyGame.prototype.initPlayer = function(player, num){
+    var retPlayer;
     
+    if(num == 1){
+        retPlayer = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
+        retPlayer = new Camera(
+            this.mPlayer1.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        );
+
+
+    } else if (num == 2) {
+        retPlayer = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
+        retPlayer = new Camera(
+            this.mPlayer2.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [560, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        );
+
+
+    }
     
-    
-    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
-                                
-    this.mPlayer1 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
-    this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
-    
-    this.player1Cam = new Camera(
-        this.mPlayer1.getXform().getPosition(), // position of the camera
-        6,                     // width of camera
-        [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
-    );
-    
-    this.player2Cam = new Camera(
-        this.mPlayer2.getXform().getPosition(), // position of the camera
-        6,                     // width of camera
-        [560, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
-    );
-    
-    
+    /*
     
     this.mPlayer1CatBall = new CatBall(this.kCatBallTexture, this.mPlayer1);
     this.mPlayer2CatBall = new CatBall(this.kCatBallTexture, this.mPlayer2);
@@ -166,15 +166,81 @@ MyGame.prototype.initialize = function () {
     //this.mAllPhysObjs.addToSet(this.mPlayer1ThrowIndicator);
     //this.mAllPhysObjs.addToSet(this.mPlayer2ThrowIndicator);
     
+    return retPlayer
+}
+*/
+
+MyGame.prototype.initialize = function () {
+    this.mCamera = new Camera(
+        vec2.fromValues(50, 40), // position of the camera
+        100,                     // width of camera
+        [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
+    );
+    
+    //this.initPlayer(this.mPlayer1);
+    //this.initPlayer(this.mPlayer2);
+    
+    this.mPlayer1 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
+    this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
+    
+    this.mPlayer1CatBall = new CatBall(this.kCatBallTexture, this.mPlayer1);
+    this.mPlayer2CatBall = new CatBall(this.kCatBallTexture, this.mPlayer2);
+    
+    this.mPlayer1.setCatBall(this.mPlayer1CatBall);
+    this.mPlayer2.setCatBall(this.mPlayer2CatBall);
+    
+    this.mPlayer1ThrowIndicator = new ThrowIndicator(this.kIndicatorSprite, this.mPlayer1);
+    this.mPlayer2ThrowIndicator = new ThrowIndicator(this.kIndicatorSprite, this.mPlayer2);
+    
+    this.mAllObjs = new GameObjectSet();
+    this.mAllPhysObjs = new GameObjectSet();
+    
+    this.mAllObjs.addToSet(this.mPlayer1);
+    this.mAllObjs.addToSet(this.mPlayer2);
+    //this.mAllObjs.addToSet(this.mPlayer1CatBall);
+    //this.mAllObjs.addToSet(this.mPlayer2CatBall);
+    this.mAllObjs.addToSet(this.mPlayer1CatBall);
+    this.mAllObjs.addToSet(this.mPlayer2CatBall);
+    
+    this.mAllPhysObjs.addToSet(this.mPlayer1);
+    this.mAllPhysObjs.addToSet(this.mPlayer2);
+    this.mAllPhysObjs.addToSet(this.mPlayer1CatBall);
+    this.mAllPhysObjs.addToSet(this.mPlayer2CatBall);
+    //this.mAllPhysObjs.addToSet(this.mPlayer1ThrowIndicator);
+    //this.mAllPhysObjs.addToSet(this.mPlayer2ThrowIndicator);
+    
+    
+    gEngine.DefaultResources.setGlobalAmbientIntensity(3);
+                                
+    //this.mPlayer1 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 20, 10, 1);
+    //this.mPlayer2 = new Hero(this.kPlayerSprite, this.kPlayerSpriteJSON, 80, 10, 2);
+    
+    
+    this.player1Cam = new Camera(
+        this.mPlayer1.getXform().getPosition(), // position of the camera
+        6,                     // width of camera
+        [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+    );
+    
+    this.player2Cam = new Camera(
+        this.mPlayer2.getXform().getPosition(), // position of the camera
+        6,                     // width of camera
+        [580, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+    );
+    
+    
+    
+    
+    
     //this.createBoundsStage1();
     //this.createBoundsStage2();
     this.createBoundsStage3();
     //this.createPegsStage1();
     //this.createBasketsStage1();
     //this.createBasketsStage2();
-    //this.createBasketsStage3();
+    this.createBasketsStage3();
     //this.createPegsStage2();
-    this.createPegsStage3();
+    //this.createPegsStage3();
     /*
     console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
     this.initializeBaskets();
@@ -195,14 +261,21 @@ MyGame.prototype.initialize = function () {
     //this.unloadScene();
     
     this.mPlayer1Score = new FontRenderable(" ");
-    this.mPlayer1Score.setColor([1, 0, 0, 0]);
+    this.mPlayer1Score.setColor([1, 0, 0, 1]);
     this.mPlayer1Score.getXform().setPosition(25, 71);
     this.mPlayer1Score.setTextHeight(3);
     
     this.mPlayer2Score = new FontRenderable(" ");
-    this.mPlayer2Score.setColor([0, 0, 1, 0]);
+    this.mPlayer2Score.setColor([0, 0, 1, 1]);
     this.mPlayer2Score.getXform().setPosition(75, 71);
     this.mPlayer2Score.setTextHeight(3);
+    
+    this.mGameOverScreen = new GameOverScreen();
+    //this.mGameOverScreen.addToSet(this.logo)
+    this.mGameOverScreen.setPlayerScore(this.mPlayer1Score, this.mPlayer2Score);
+    //this.mGameOverScreen.mObjSet.addToSet(this.mPlayer1Score)
+    //this.mGameOverScreen.mObjSet.addToSet(this.mPlayer2Score)
+    this.gameOver = false;
 };
 
 
@@ -214,6 +287,7 @@ MyGame.prototype.draw = function () {
     this.drawCam(this.mCamera);
     this.drawCam(this.player1Cam);
     this.drawCam(this.player2Cam);
+
 };
 
 MyGame.prototype.drawCam = function(cam){
@@ -222,26 +296,33 @@ MyGame.prototype.drawCam = function(cam){
     cam.setupViewProjection();
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
-    this.mAllObjs.draw(cam);
-    this.mPlayer1ThrowIndicator.draw(cam);
-    this.mPlayer2ThrowIndicator.draw(cam);
-    
-    for(var i = 0; i < this.basketSet.length; i++){
-        this.basketSet[i].draw(cam);
+    if(!this.gameOver){
+        this.mAllObjs.draw(cam);
+        this.mPlayer1ThrowIndicator.draw(cam);
+        this.mPlayer2ThrowIndicator.draw(cam);
+
+        for(var i = 0; i < this.basketSet.length; i++){
+            this.basketSet[i].draw(cam);
+        }
+
+        for(var i = 0; i < this.pegSet.length; i++){
+            this.pegSet[i].draw(cam);
+        }
+        this.mTimerText.draw(cam);
+        this.mPlayer1Score.draw(cam);
+        this.mPlayer2Score.draw(cam);
+    } else {
+        this.mGameOverScreen.draw(cam);
+        this.mPlayer1.draw(cam);
+        this.mPlayer2.draw(cam);
     }
     
-    for(var i = 0; i < this.pegSet.length; i++){
-        this.pegSet[i].draw(cam);
-    }
     
-   
-    this.mTimerText.draw(cam);
     
-    this.mPlayer1Score.draw(cam);
-    this.mPlayer2Score.draw(cam);
 }
 
 MyGame.prototype.update = function () {
+    //console.log(this.gameOver);
     this.updateInput();
     
     this.updateTimer();
@@ -285,81 +366,117 @@ MyGame.prototype.updateTimer = function () {
 }
 
 MyGame.prototype.endGame = function(){
+    this.mPlayer1Score.getXform().setPosition(25, 45);
+    this.mPlayer2Score.getXform().setPosition(75, 45);
     
-    var start = new GameOver(this.mPlayer1Score, this.mPlayer2Score); 
+    this.mPlayer1.resetPlayer();
+    this.mPlayer2.resetPlayer();
     
-    gEngine.Core.startScene(start);
+    this.gameOver = true;
+    
+    //var start = new GameOver(this.mPlayer1Score, this.mPlayer2Score); 
+    
+    //gEngine.Core.startScene(start);
     
     // unloading scene gives gEngine.retrieveAsset: [assets/playerAnimSprite.png] error,
     // but keeping the scene loaded will cause lag when playing again
     //this.unloadScene();
 }
 
+MyGame.prototype.restartGame = function(){
+    //console.log("yes restart Game")
+    this.mPlayer1Score.getXform().setPosition(25, 71);
+    this.mPlayer2Score.getXform().setPosition(75, 71);
+    this.mTimer = 10000;
+    
+    for(var i = 0; i < this.basketSet.length; i++){
+        this.basketSet[i].reset();
+    }
+    
+    for(var i = 0; i < this.pegSet.length; i++){
+        this.pegSet[i].reset();
+    }
+    
+    this.gameOver = false;
+}
+
 MyGame.prototype.updateInput = function () {
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
-        // takes user(s) back to main menu
-        //var start = new IntroMenu();
-        //gEngine.Core.startScene(start);
-        
-        // Brings the user to the game over screen
-        this.endGame();
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
-        this.mPlayer1.jump(this.mAllObjs);
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
-        this.mPlayer1.moveLeft();
-    }
     
     
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
-        this.mPlayer1.moveRight();
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Q)) {
-        //if (this.mPlayer1CatBall.throwAngle < 90) {
-            this.mPlayer1CatBall.throwAngle++;
-        //}
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)) {
-        //if (this.mPlayer1CatBall.throwAngle > 0) {
-            this.mPlayer1CatBall.throwAngle--;
-        //}
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.F)) {
-        this.mPlayer1CatBall.throw();
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
-        //if (this.mPlayer2CatBall.throwAngle < 90) {
-            this.mPlayer2CatBall.throwAngle++;
-        //}
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O)) {
-        //if (this.mPlayer2CatBall.throwAngle > 0) {
-            this.mPlayer2CatBall.throwAngle--;
-        //}
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
-        this.mPlayer2CatBall.throw();
-    }
-    
-    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
-        this.mPlayer2.jump(this.mAllObjs);
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.J)) {
-        this.mPlayer2.moveLeft();
-    }
-    
-    if (gEngine.Input.isKeyPressed(gEngine.Input.keys.L)) {
-        this.mPlayer2.moveRight();
+    if(!this.gameOver){
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Escape)) {
+            // takes user(s) back to main menu
+            //var start = new IntroMenu();
+            //gEngine.Core.startScene(start);
+
+            // Brings the user to the game over screen
+            this.endGame();
+        }
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+            this.mPlayer1.jump(this.mAllObjs);
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.A)) {
+            this.mPlayer1.moveLeft();
+        }
+
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.D)) {
+            this.mPlayer1.moveRight();
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Q)) {
+            //if (this.mPlayer1CatBall.throwAngle < 90) {
+                this.mPlayer1CatBall.throwAngle++;
+            //}
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.E)) {
+            //if (this.mPlayer1CatBall.throwAngle > 0) {
+                this.mPlayer1CatBall.throwAngle--;
+            //}
+        }
+
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.F)) {
+            this.mPlayer1CatBall.throw();
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.U)) {
+            //if (this.mPlayer2CatBall.throwAngle < 90) {
+                this.mPlayer2CatBall.throwAngle++;
+            //}
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.O)) {
+            //if (this.mPlayer2CatBall.throwAngle > 0) {
+                this.mPlayer2CatBall.throwAngle--;
+            //}
+        }
+
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
+            this.mPlayer2CatBall.throw();
+        }
+
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
+            this.mPlayer2.jump(this.mAllObjs);
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.J)) {
+            this.mPlayer2.moveLeft();
+        }
+
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.L)) {
+            this.mPlayer2.moveRight();
+        }
+    } 
+    else if(this.gameOver){
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Space)) {
+            //console.log("well I tried");
+            this.restartGame();
+        } else if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Esc)){
+            //console.log("tried");
+            location.reload(true);
+        }
     }
 }
 

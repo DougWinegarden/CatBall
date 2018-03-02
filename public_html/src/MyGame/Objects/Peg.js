@@ -11,7 +11,7 @@ function Peg(texture, x, y, r) {
     
     this.aPeg = new TextureRenderable(texture)
     
-    //this.aPeg.setColor([1, 1, 1, 0]);
+    this.aPeg.setColor([1, 1, 1, 0]);
     this.aPeg.getXform().setPosition(x, y);
     this.aPeg.getXform().setSize(r * 2.1, r * 2.2);
     
@@ -38,10 +38,15 @@ function Peg(texture, x, y, r) {
     //r.setFriction(0.5);a
     this.setRigidBody(r);
     
-    this.toggleDrawRigidShape();
+    //this.toggleDrawRigidShape();
     
 }
 gEngine.Core.inheritPrototype(Peg, GameObject);
+
+Peg.prototype.reset = function(){
+    this.color = 0;
+    this.processHit();
+}
 
 Peg.prototype.update = function (ball1, ball2) {
     
@@ -81,6 +86,9 @@ Peg.prototype.processHit = function(){
     } else if (this.color == 2) {
         //this.aPeg.setElementPixelPositions(256 * 2, 256 * 3, 0, 128);
         this.aPeg.setColor([0, 0, 1, 1]);
+    } else if(this.color == 0){
+        console.log("yes");
+        this.aPeg.setColor([1, 1, 1, 1]);
     }
 }
 
