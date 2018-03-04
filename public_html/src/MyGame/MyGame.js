@@ -57,7 +57,8 @@ function MyGame() {
     this.basketSet = [];
     this.pegSet = [];
     
-    this.mTimer = 10000;
+    this.startTime = 90000;
+    this.mTimer = this.startTime;
     //this.deltaTime = 0;
     this.lastTime = Date.now();
     this.mTimerText = null;
@@ -232,13 +233,13 @@ MyGame.prototype.initialize = function () {
     
     
     
-    //this.createBoundsStage1();
+    this.createBoundsStage1();
     //this.createBoundsStage2();
-    this.createBoundsStage3();
+    //this.createBoundsStage3();
     //this.createPegsStage1();
-    //this.createBasketsStage1();
+    this.createBasketsStage1();
     //this.createBasketsStage2();
-    this.createBasketsStage3();
+    //this.createBasketsStage3();
     //this.createPegsStage2();
     //this.createPegsStage3();
     /*
@@ -387,7 +388,7 @@ MyGame.prototype.restartGame = function(){
     //console.log("yes restart Game")
     this.mPlayer1Score.getXform().setPosition(25, 71);
     this.mPlayer2Score.getXform().setPosition(75, 71);
-    this.mTimer = 10000;
+    this.mTimer = this.startTime;
     
     for(var i = 0; i < this.basketSet.length; i++){
         this.basketSet[i].reset();
