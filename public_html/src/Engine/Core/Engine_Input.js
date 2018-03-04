@@ -113,9 +113,12 @@ gEngine.Input = (function () {
     // <editor-fold desc="Event handler functions">
     //<editor-fold desc="Keyboard handlers">
     var _onKeyDown = function (event) {
-        if(event.keyCode == 32 && event.target == document.body) {
-            event.preventDefault();
-          }
+        if(event.target == document.body){
+            if(event.keyCode == 32 || event.keyCode == 40 || event.keyCode == 38) {
+                event.preventDefault();
+            }
+        }
+        
         mIsKeyPressed[event.keyCode] = true;
     };
     var _onKeyUp = function (event) {
