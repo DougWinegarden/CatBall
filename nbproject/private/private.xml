@@ -23,14 +23,15 @@
         </group>
         <group name="build-your-own-2d-game-engine">
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/Hero.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/GameObjects/GameObject.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/RigidShapes/RigidShape.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/Peg.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Menu/GameOverScreen.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/Basket.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/Core/Engine_Input.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/CatBall.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/Utils/BoundingBox.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/GameObjects/GameObjectSet.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/GameOver.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/index.html</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Menu/MenuElement.js</file>
+            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/Renderables/FontRenderable.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/MyGame.js</file>
-            <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/Core/Engine_Physics.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/IntroMenu.js</file>
         </group>
     </open-files>
