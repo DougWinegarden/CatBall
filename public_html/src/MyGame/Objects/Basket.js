@@ -11,10 +11,10 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function Basket(spriteTexture, x, y) {
+function Basket(spriteTexture, normalMap, x, y) {
     
-    this.aBasket = new SpriteRenderable(spriteTexture)
-    
+    this.aBasket = new IllumRenderable(spriteTexture, normalMap);
+    this.aBasket.getMaterial().setSpecular([1, 0, 0, 1]);
     //this.aBasket.setColor([1, 1, 1, 0]);
     this.aBasket.getXform().setPosition(x, y);
     this.aBasket.getXform().setSize(8, 4);

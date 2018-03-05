@@ -10,17 +10,6 @@
         <group name="GameTopics">
             <file>file:/C:/Users/Kelvin/Dropbox/2.Classes/452/Source/GameTopics/GamePhysicsIntegrated/public_html/index.html</file>
         </group>
-        <group>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/Engine/RigidShapes/RigidShape.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/Objects/Basket.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/Objects/CatBall.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/MyGame_Bounds.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/index.html</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/GameOver.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/MyGame.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/Objects/Hero.js</file>
-            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/Engine/GameObjects/GameObject.js</file>
-        </group>
         <group name="build-your-own-2d-game-engine">
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/Hero.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/Objects/Peg.js</file>
@@ -33,6 +22,15 @@
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/Engine/Renderables/FontRenderable.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/MyGame.js</file>
             <file>file:/C:/Users/Doug/Documents/GitHub/CatBall/CatBall/public_html/src/MyGame/IntroMenu.js</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/Objects/Basket.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/MyGame_Bounds.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/Engine/Cameras/Camera.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/MyGame_Lights.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/MyGame.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/MyGame/Objects/Hero.js</file>
+            <file>file:/C:/Users/jimmy/Desktop/CSS%20452/project/CatBall/public_html/src/Engine/Cameras/CameraState.js</file>
         </group>
     </open-files>
 </project-private>

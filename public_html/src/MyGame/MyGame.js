@@ -25,6 +25,7 @@ function MyGame() {
     //this.kBasketTexture = "assets/basket1.png";
     //this.kBasketTexture = "assets/3baskets.png";
     this.kBasketTexture = "assets/Baskets.png";
+    this.kBasketNormal = "assets/BasketsNormalMap.png";
     this.kPlayerSprite = "assets/PlayerAnimSprite.png";
     this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
     this.kIndicatorSprite = "assets/ThrowIndicators.png";
@@ -57,6 +58,8 @@ function MyGame() {
     this.basketSet = [];
     this.pegSet = [];
     
+    this.lightSet = null;
+    
     this.startTime = 90000;
     this.mTimer = this.startTime;
     //this.deltaTime = 0;
@@ -86,6 +89,7 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.loadTexture(this.kPlayerTexture);  
     gEngine.Textures.loadTexture(this.kBasketTexture);  
+    gEngine.Textures.loadTexture(this.kBasketNormal);
     gEngine.Textures.loadTexture(this.kPegTexture);  
     gEngine.Textures.loadTexture(this.kIndicatorSprite);  
     
@@ -105,7 +109,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kRedCatBallTexture);  
     gEngine.Textures.unloadTexture(this.kBlueCatBallTexture);  
     gEngine.Textures.unloadTexture(this.kPlayerTexture);  
-    gEngine.Textures.unloadTexture(this.kBasketTexture);  
+    gEngine.Textures.unloadTexture(this.kBasketTexture); 
+    gEngine.Textures.unloadTexture(this.kBasketNormal);
     gEngine.Textures.unloadTexture(this.kPegTexture);  
     gEngine.Textures.unloadTexture(this.kIndicatorSprite);
     
@@ -177,6 +182,8 @@ MyGame.prototype.initialize = function () {
         100,                     // width of camera
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
+    
+    this._initializeLights();   // defined in MyGame_Lights.js
     
     //this.initPlayer(this.mPlayer1);
     //this.initPlayer(this.mPlayer2);
@@ -254,6 +261,12 @@ MyGame.prototype.initialize = function () {
     }
     */
     
+    for (var i = 0; i < this.lightSet.numLights(); i++) {
+        var light = this.lightSet.getLightAt(i)
+        for (var j = 0; j < this.basketSet.length; j++) {
+            this.basketSet[j].getRenderable().addLight(light);
+        }
+    }
     
     this.mTimerText = new FontRenderable("" + Math.round(this.mTimer / 1000));
     this.mTimerText.setColor([1, 1, 1, 0]);
@@ -329,7 +342,10 @@ MyGame.prototype.update = function () {
     this.updateTimer();
     
     this.updateObjects();
-    
+    var pos = this.mPlayer1CatBall.getXform().getPosition();
+    this.player1Cam.setWCCenter(pos[0], pos[1]);
+    this.updatePlayerCams();
+       
     //if(this.)
     this.updateScore();
 };
@@ -352,7 +368,7 @@ MyGame.prototype.updateObjects = function(){
     this.mPlayer2.updateJumpStatus(this.mAllPhysObjs);
     
     gEngine.Physics.processCollision(this.mAllPhysObjs, this.mCollisionInfos);
-}
+};
 
 MyGame.prototype.updateTimer = function () {
     var deltaTime = Date.now() - this.lastTime;
@@ -364,7 +380,7 @@ MyGame.prototype.updateTimer = function () {
     if(this.mTimer <= 0){
         this.endGame();
     }
-}
+};
 
 MyGame.prototype.endGame = function(){
     this.mPlayer1Score.getXform().setPosition(25, 45);
@@ -382,7 +398,7 @@ MyGame.prototype.endGame = function(){
     // unloading scene gives gEngine.retrieveAsset: [assets/playerAnimSprite.png] error,
     // but keeping the scene loaded will cause lag when playing again
     //this.unloadScene();
-}
+};
 
 MyGame.prototype.restartGame = function(){
     //console.log("yes restart Game")
@@ -399,7 +415,7 @@ MyGame.prototype.restartGame = function(){
     }
     
     this.gameOver = false;
-}
+};
 
 MyGame.prototype.updateInput = function () {
     
@@ -479,7 +495,37 @@ MyGame.prototype.updateInput = function () {
             location.reload(true);
         }
     }
-}
+};
+
+MyGame.prototype.updatePlayerCams = function() {
+    if (this.mPlayer1CatBall.state != "held") {
+        this.player1Cam = new Camera(
+            this.mPlayer1CatBall.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        );  
+    } else {
+        this.player1Cam = new Camera(
+            this.mPlayer1.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [0, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        ); 
+    }
+    
+    if (this.mPlayer2CatBall.state != "held") {
+        this.player2Cam = new Camera(
+            this.mPlayer2CatBall.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [580, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        );  
+    } else {
+        this.player2Cam = new Camera(
+            this.mPlayer2.getXform().getPosition(), // position of the camera
+            6,                     // width of camera
+            [580, 600, 220, 60 * 4]         // viewport (orgX, orgY, width, height)
+        ); 
+    }
+};
 
 MyGame.prototype.updateScore = function () {
     var score1 = 0;
@@ -503,4 +549,4 @@ MyGame.prototype.updateScore = function () {
     
     this.mPlayer1Score.setText("" + score1);
     this.mPlayer2Score.setText("" + score2);
-}
+};
