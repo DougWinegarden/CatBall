@@ -74,6 +74,8 @@ function MyGame() {
     //this.mCatInSet = true;
     this.mGameOverScreen = null;
     this.gameOver = null;
+    
+    this.angleDelta = 2;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
 
@@ -429,7 +431,7 @@ MyGame.prototype.updateInput = function () {
             // Brings the user to the game over screen
             this.endGame();
         }
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.W)) {
             this.mPlayer1.jump(this.mAllObjs);
         }
 
@@ -444,13 +446,13 @@ MyGame.prototype.updateInput = function () {
 
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.C)) {
             //if (this.mPlayer1CatBall.throwAngle < 90) {
-                this.mPlayer1CatBall.throwAngle++;
+                this.mPlayer1CatBall.throwAngle += this.angleDelta;
             //}
         }
 
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.B)) {
             //if (this.mPlayer1CatBall.throwAngle > 0) {
-                this.mPlayer1CatBall.throwAngle--;
+                this.mPlayer1CatBall.throwAngle -= this.angleDelta;
             //}
         }
 
@@ -460,13 +462,13 @@ MyGame.prototype.updateInput = function () {
 
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Comma)) {
             //if (this.mPlayer2CatBall.throwAngle < 90) {
-                this.mPlayer2CatBall.throwAngle++;
+                this.mPlayer2CatBall.throwAngle += this.angleDelta;
             //}
         }
 
         if (gEngine.Input.isKeyPressed(gEngine.Input.keys.QM)) {
             //if (this.mPlayer2CatBall.throwAngle > 0) {
-                this.mPlayer2CatBall.throwAngle--;
+                this.mPlayer2CatBall.throwAngle -= this.angleDelta;
             //}
         }
 
@@ -474,7 +476,7 @@ MyGame.prototype.updateInput = function () {
             this.mPlayer2CatBall.throw();
         }
 
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.I)) {
             this.mPlayer2.jump(this.mAllObjs);
         }
 

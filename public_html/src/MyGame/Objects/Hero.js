@@ -275,7 +275,7 @@ Hero.prototype.updateJumpStatus = function(gameObjectSet){
 Hero.prototype.jump = function(gameObjectSet){
     if(this.canJump(gameObjectSet)){
         this.jumping = true;
-        this.getRigidBody().setVelocity(0, 25);
+        this.getRigidBody().setVelocity(0, 26);
         
         // the player just jumped so update the animation status
         this.updateAnimationStatus();

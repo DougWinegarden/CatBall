@@ -39,8 +39,8 @@ MyGame.prototype.createBoundsStage1 = function() {
     this.platformAt(30, 20, 15, 0);
     this.platformAt(70, 20, 15, 0);
     this.platformAt(85, 50, 20, 0);
-    this.platformAt(15, 30, 10, 0);
-    this.platformAt(85, 30, 10, 0);
+    this.platformAt(20, 30, 10, 0);
+    this.platformAt(80, 30, 10, 0);
     this.platformAt(50, 40, 20, 0);
     
     x = 2;
