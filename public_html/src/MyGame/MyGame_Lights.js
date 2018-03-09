@@ -30,11 +30,11 @@ MyGame.prototype._initializeLights = function () {
 
     var l = this._createALight(Light.eLightType.eDirectionalLight,
             [500, 500, 4],           // position (not used by directional)
-            [1, 1, -1],      // Pointing direction upwards
+            [.5, 1, -1],      // Pointing direction upwards
             [0.7, 0.7, .7, 1],    // color
             500, 500,              // near anf far distances: essentially switch this off
             0.1, 0.2,              // inner and outer cones
-            10,                     // intensity
+            .3,                     // intensity
             1.0                    // drop off
             );
     this.lightSet.addToSet(l);
@@ -43,9 +43,9 @@ MyGame.prototype._initializeLights = function () {
             [50, 8, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
-            0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            8, 10,               // near and far distances
+            .1, .2,            // inner and outer cones
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -54,9 +54,9 @@ MyGame.prototype._initializeLights = function () {
             [8, 8, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
-            0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            8,10,               // near and far distances
+            .1, .2,            // inner and outer cones
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -65,9 +65,9 @@ MyGame.prototype._initializeLights = function () {
             [92, 8, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -76,9 +76,9 @@ MyGame.prototype._initializeLights = function () {
             [50, 43.5, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
-            0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            8, 10,               // near and far distances
+            0.1, .2,            // inner and outer cones
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -87,9 +87,9 @@ MyGame.prototype._initializeLights = function () {
             [50, 30, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -98,9 +98,9 @@ MyGame.prototype._initializeLights = function () {
             [8, 40, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -109,9 +109,9 @@ MyGame.prototype._initializeLights = function () {
             [92, 40, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -120,9 +120,9 @@ MyGame.prototype._initializeLights = function () {
             [8, 68, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -131,9 +131,9 @@ MyGame.prototype._initializeLights = function () {
             [92, 68, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);
@@ -142,9 +142,9 @@ MyGame.prototype._initializeLights = function () {
             [50, 64, 5],         // position
             [0, 0, -1],          // Direction 
             [.2, .2, .2, 1],  // some color
-            8, 20,               // near and far distances
+            8, 10,               // near and far distances
             0.1, 0.2,            // inner and outer cones
-            1,                   // intensity
+            1.5,                   // intensity
             1.0                  // drop off
             );
     this.lightSet.addToSet(l);

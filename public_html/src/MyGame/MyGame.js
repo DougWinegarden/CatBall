@@ -29,6 +29,8 @@ function MyGame() {
     this.kPlayerSprite = "assets/PlayerAnimSprite.png";
     this.kPlayerSpriteJSON = "assets/PlayerAnimSprite.json";
     this.kIndicatorSprite = "assets/ThrowIndicators.png";
+    this.bg = "assets/background.png";
+    this.bgNormal = "assets/BackgroundNormalMapped.png";
     
     this.kPegTexture = "assets/PegTexture.png";
     
@@ -74,7 +76,7 @@ function MyGame() {
     //this.mCatInSet = true;
     this.mGameOverScreen = null;
     this.gameOver = null;
-    
+    this.background = null;
     this.angleDelta = 2;
 }
 gEngine.Core.inheritPrototype(MyGame, Scene);
@@ -94,6 +96,8 @@ MyGame.prototype.loadScene = function () {
     gEngine.Textures.loadTexture(this.kBasketNormal);
     gEngine.Textures.loadTexture(this.kPegTexture);  
     gEngine.Textures.loadTexture(this.kIndicatorSprite);  
+    gEngine.Textures.loadTexture(this.bg);  
+    gEngine.Textures.loadTexture(this.bgNormal);  
     
     gEngine.Textures.loadTexture(this.kPlayerSprite); 
     //gEngine.
@@ -115,6 +119,8 @@ MyGame.prototype.unloadScene = function () {
     gEngine.Textures.unloadTexture(this.kBasketNormal);
     gEngine.Textures.unloadTexture(this.kPegTexture);  
     gEngine.Textures.unloadTexture(this.kIndicatorSprite);
+    gEngine.Textures.unloadTexture(this.bg);
+    gEngine.Textures.unloadloadTexture(this.bgNormal);
     
     gEngine.Textures.unloadTexture(this.kPlayerSprite); 
     //gEngine.
@@ -263,6 +269,17 @@ MyGame.prototype.initialize = function () {
     }
     */
     
+    var bgR = new IllumRenderable(this.bg, this.bgNormal);
+    bgR.setElementPixelPositions(0, 1024, 0, 512);
+    bgR.getXform().setSize(100, 100);
+    bgR.getXform().setPosition(50, 40);
+    bgR.getMaterial().setSpecular([1, 0, 0, 1]);
+    for (var i = 0; i < this.lightSet.numLights(); i++) {
+        bgR.addLight(this.lightSet.getLightAt(i));
+    }
+    this.background = new GameObject(bgR);
+    
+    console.log(this.lightSet.numLights());
     for (var i = 0; i < this.lightSet.numLights(); i++) {
         var light = this.lightSet.getLightAt(i)
         for (var j = 0; j < this.basketSet.length; j++) {
@@ -313,6 +330,7 @@ MyGame.prototype.drawCam = function(cam){
     //this.mPlayer1.draw(this.mCamera);
     //this.mPlayer1CatBall.draw(this.mCamera); 
     if(!this.gameOver){
+        this.background.draw(cam);
         this.mAllObjs.draw(cam);
         this.mPlayer1ThrowIndicator.draw(cam);
         this.mPlayer2ThrowIndicator.draw(cam);
