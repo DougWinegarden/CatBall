@@ -12,7 +12,7 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame(stage) {
+function MyGame(stage, matchTime) {
     this.stage = stage;
     
     this.kMinionSprite = "assets/minion_sprite.png";
@@ -64,7 +64,7 @@ function MyGame(stage) {
     
     this.lightSet = null;
     
-    this.startTime = 90000;
+    this.startTime = matchTime * 1000;
     this.mTimer = this.startTime;
     //this.deltaTime = 0;
     this.lastTime = Date.now();

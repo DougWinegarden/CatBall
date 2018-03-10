@@ -28,6 +28,13 @@ function IntroMenu() {
     this.stage3Baskets = null;
     this.stage3Pegs = null;
     
+    this.matchTimeLabel = null;
+    this.matchTimeText = null;
+    this.timeArrowL = null;
+    this.timeArrowR = null;
+    this.matchTimeIndex = 2;
+    this.matchTimes = [ 30, 60, 90, 120, 150, 180, 210];
+    
     // elements represent selectable menu text for example,
     // options or start game
     //this.elements = [this.start, this.options, this.credits];
@@ -79,6 +86,22 @@ IntroMenu.prototype.initialize = function () {
         this.stage3Pegs
     ];
     
+    
+    this.matchTimeLabel = new MenuElement("Match Time", 35, 25, 3);
+    
+    this.matchTimeText = new MenuElement("" + this.matchTimes[this.matchTimeIndex], 40, 20, 4);
+    this.timeArrowL = new TextureRenderable(this.kArrow);
+    this.timeArrowL.getXform().setSize(2, 2);
+    this.timeArrowL.getXform().setPosition(35, 20);
+    this.timeArrowL.getXform().incRotationByDegree(180);
+    
+    this.timeArrowR = new TextureRenderable(this.kArrow);
+    this.timeArrowR.getXform().setPosition(50, 20);
+    this.timeArrowR.getXform().setSize(2, 2);
+    
+    
+    
+    
     this.selectedElement = this.stage1Baskets;
     //this.myGame = new MyGame();
     this.selectionArrow = new TextureRenderable(this.kArrow);
@@ -100,6 +123,11 @@ IntroMenu.prototype.draw = function () {
     }
     
     this.selectionArrow.draw(this.mCamera);
+    
+    this.matchTimeLabel.draw(this.mCamera);
+    this.matchTimeText.draw(this.mCamera);
+    this.timeArrowL.draw(this.mCamera);
+    this.timeArrowR.draw(this.mCamera);
     //this.startText.draw(this.mCamera);
     //this.options.draw(this.mCamera);
 };
@@ -114,7 +142,7 @@ IntroMenu.prototype.update = function () {
         //gEngine.Physics.togglePositionalCorrection();
         //this.unloadScene();
 
-        var start = new MyGame(this.selectIndex);
+        var start = new MyGame(this.selectIndex, this.matchTimes[this.matchTimeIndex]);
         gEngine.Core.startScene(start);
         
         
@@ -140,19 +168,27 @@ IntroMenu.prototype.update = function () {
         this.selectedElement = this.elements[this.selectIndex];
    }
    
-   /*
+   
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.A) || 
-           gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.J) ||
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.Left)) {
 
         // move selection index left
+        this.matchTimeIndex--;
+        this.matchTimeIndex = clamp(this.matchTimeIndex, 0, this.matchTimes.length - 1);
+        this.matchTimeText.mFontRenderable.setText("" + this.matchTimes[this.matchTimeIndex]);
    }
    
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.D) || 
-           gEngine.Input.isKeyClicked(gEngine.Input.keys.L)) {
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.L) ||
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.Right)) {
 
         // move selection index right
+        this.matchTimeIndex++;
+        this.matchTimeIndex = clamp(this.matchTimeIndex, 0, this.matchTimes.length - 1);
+        this.matchTimeText.mFontRenderable.setText("" + this.matchTimes[this.matchTimeIndex]);
    }
-   */
+   
 };
 
 
