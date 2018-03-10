@@ -169,30 +169,30 @@ MyGame.prototype.createBasketsStage1 = function(){
 }
 
 MyGame.prototype.createBasketsStage2 = function(){
-    this.basketSet.push(new Basket(this.kBasketTexture, 50, 40));
-    this.basketSet.push(new Basket(this.kBasketTexture, 50, 60));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 50, 40));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 50, 60));
     
-    this.basketSet.push(new Basket(this.kBasketTexture, 42, 38));
-    this.basketSet.push(new Basket(this.kBasketTexture, 58, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 42, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 58, 38));
     
-    this.basketSet.push(new Basket(this.kBasketTexture, 15, 60));
-    this.basketSet.push(new Basket(this.kBasketTexture, 85, 60));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 15, 60));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 85, 60));
 
     this.initPhysForBaskets();
 }
 
 MyGame.prototype.createBasketsStage3 = function(){
     //this.basketSet.push(new Basket(this.kBasketTexture, 50, 40));
-    this.basketSet.push(new Basket(this.kBasketTexture, 50, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 50, 38));
     
-    this.basketSet.push(new Basket(this.kBasketTexture, 40, 38));
-    this.basketSet.push(new Basket(this.kBasketTexture, 60, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 40, 38));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 60, 38));
     
-    this.basketSet.push(new Basket(this.kBasketTexture, 10, 50));
-    this.basketSet.push(new Basket(this.kBasketTexture, 90, 50));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 10, 50));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 90, 50));
     
-    this.basketSet.push(new Basket(this.kBasketTexture, 37, 21));
-    this.basketSet.push(new Basket(this.kBasketTexture, 63, 21));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 37, 21));
+    this.basketSet.push(new Basket(this.kBasketTexture, this.kBasketNormal, 63, 21));
     
     //this.basketSet.push(new Basket(this.kBasketTexture, 15, 60));
     //this.basketSet.push(new Basket(this.kBasketTexture, 85, 60));
