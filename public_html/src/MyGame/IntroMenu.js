@@ -14,9 +14,19 @@ function IntroMenu() {
     
     this.mCamera = null;
     this.logo = null;
-    this.start = null;
-    this.options = null;
-    this.credits = null;
+    
+    //this.start = null;
+    //this.options = null;
+    //this.credits = null;
+    
+    this.matchTime = null;
+    
+    this.stage1Baskets = null;
+    this.stage1Pegs = null;
+    this.stage2Baskets = null;
+    this.stage2Pegs = null;
+    this.stage3Baskets = null;
+    this.stage3Pegs = null;
     
     // elements represent selectable menu text for example,
     // options or start game
@@ -24,9 +34,10 @@ function IntroMenu() {
     this.elements = [];
     this.selectedElement = null;
     
-    this.drawOptions = false;
-    this.optionsElements = [];
+    //this.drawOptions = false;
+    //this.optionsElements = [];
     //this.start = null;
+    this.selectIndex = 0;
 }
 gEngine.Core.inheritPrototype(IntroMenu, Scene);
 
@@ -46,20 +57,36 @@ IntroMenu.prototype.initialize = function () {
                                 [0, 0, 800, 600]);
 
     this.logo = new MenuElement("Cat Ball", 36, 70, 5);
-    this.start = new MenuElement("Start", 30, 50, 3);
-    this.options = new MenuElement("Options", 30, 40, 3);
+    
+    
+    ///this.start = new MenuElement("Start", 30, 50, 3);
+    //this.options = new MenuElement("Options", 30, 40, 3);
     //this.credits = new MenuElement("Credits", 30, 30, 3);
     
-    this.elements = [this.start, this.options];
+    this.stage1Baskets = new MenuElement("Stage 1 Bascats", 30, 60, 3);
+    this.stage1Pegs = new MenuElement("Stage 1 Cat-chinko", 30, 55, 3);
+    this.stage2Baskets = new MenuElement("Stage 2 Bascats", 30, 50, 3);
+    this.stage2Pegs = new MenuElement("Stage 2 Cat-chinko", 30, 45, 3);
+    this.stage3Baskets = new MenuElement("Stage 3 Bascats", 30, 40, 3);
+    this.stage3Pegs = new MenuElement("Stage 3 Cat-chinko", 30, 35, 3);
     
-    this.selectedElement = this.start;
+    this.elements = [
+        this.stage1Baskets,
+        this.stage1Pegs,
+        this.stage2Baskets,
+        this.stage2Pegs,
+        this.stage3Baskets,
+        this.stage3Pegs
+    ];
+    
+    this.selectedElement = this.stage1Baskets;
     //this.myGame = new MyGame();
     this.selectionArrow = new TextureRenderable(this.kArrow);
     this.selectionArrow.getXform().setSize(3, 3);
     //this.selectionArrow.se
     
     //this.drawOptions = false;
-    this.optionsElements = [];
+    //this.optionsElements = [];
 };
 
 IntroMenu.prototype.draw = function () {
@@ -78,6 +105,7 @@ IntroMenu.prototype.draw = function () {
 };
 
 IntroMenu.prototype.update = function () {
+    // set the selection arrow position to the currently selected element
     var pos = this.selectedElement.mFontRenderable.getXform().getPosition();
     this.selectionArrow.getXform().setPosition(pos[0] - 5, pos[1] - 0.5);
     
@@ -85,26 +113,34 @@ IntroMenu.prototype.update = function () {
            gEngine.Input.isKeyClicked(gEngine.Input.keys.Enter)) {
         //gEngine.Physics.togglePositionalCorrection();
         //this.unloadScene();
-        if(this.selectedElement == this.start){
-            var start = new MyGame();
-            gEngine.Core.startScene(start);
-        }
+
+        var start = new MyGame(this.selectIndex);
+        gEngine.Core.startScene(start);
         
         
    }
    
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.W) || 
-           gEngine.Input.isKeyClicked(gEngine.Input.keys.I)) {
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.I) ||
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.Up)) {
 
         // move selection index up
+        this.selectIndex--;
+        this.selectIndex = clamp(this.selectIndex, 0, this.elements.length - 1);
+        this.selectedElement = this.elements[this.selectIndex];
    }
    
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.S) || 
-           gEngine.Input.isKeyClicked(gEngine.Input.keys.K)) {
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.K) ||
+           gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
 
         // move selection index down
+        this.selectIndex++;
+        this.selectIndex = clamp(this.selectIndex, 0, this.elements.length - 1);
+        this.selectedElement = this.elements[this.selectIndex];
    }
    
+   /*
    if (gEngine.Input.isKeyClicked(gEngine.Input.keys.A) || 
            gEngine.Input.isKeyClicked(gEngine.Input.keys.J)) {
 
@@ -116,6 +152,7 @@ IntroMenu.prototype.update = function () {
 
         // move selection index right
    }
+   */
 };
 
 

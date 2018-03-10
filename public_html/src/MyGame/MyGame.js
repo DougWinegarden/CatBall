@@ -12,7 +12,9 @@
 
 "use strict";  // Operate in Strict mode such that variables must be declared before used!
 
-function MyGame() {
+function MyGame(stage) {
+    this.stage = stage;
+    
     this.kMinionSprite = "assets/minion_sprite.png";
     this.kPlatformTexture = "assets/platform.png";
     this.kWallTexture = "assets/wall.png";
@@ -191,7 +193,7 @@ MyGame.prototype.initialize = function () {
         [0, 0, 800, 600]         // viewport (orgX, orgY, width, height)
     );
     
-    this._initializeLights();   // defined in MyGame_Lights.js
+    //this._initializeLights();   // defined in MyGame_Lights.js
     
     //this.initPlayer(this.mPlayer1);
     //this.initPlayer(this.mPlayer2);
@@ -246,13 +248,31 @@ MyGame.prototype.initialize = function () {
     
     
     
+    if(this.stage == 0){
+        this.createBoundsStage1();
+        this.createBasketsStage1();
+    } else if (this.stage == 1){
+        this.createBoundsStage1();
+        this.createPegsStage1();
+    } else if (this.stage == 2){
+        this.createBoundsStage2();
+        this.createBasketsStage2();
+    } else if (this.stage == 3){
+        this.createBoundsStage2();
+        this.createPegsStage2();
+    } else if (this.stage == 4){
+        this.createBoundsStage3();
+        this.createBasketsStage3();
+    } else if (this.stage == 5){
+        this.createBoundsStage3();
+        this.createPegsStage3();
+    }
     
-    
-    this.createBoundsStage1();
+    //this.createBoundsStage1();
     //this.createBoundsStage2();
     //this.createBoundsStage3();
     //this.createPegsStage1();
-    this.createBasketsStage1();
+    //this.createBasketsStage1();
     //this.createBasketsStage2();
     //this.createBasketsStage3();
     //this.createPegsStage2();
@@ -268,24 +288,32 @@ MyGame.prototype.initialize = function () {
         
     }
     */
+    this._initializeLights1();
     
     var bgR = new IllumRenderable(this.bg, this.bgNormal);
     bgR.setElementPixelPositions(0, 1024, 0, 512);
     bgR.getXform().setSize(100, 100);
     bgR.getXform().setPosition(50, 40);
     bgR.getMaterial().setSpecular([1, 0, 0, 1]);
+    
+    
     for (var i = 0; i < this.lightSet.numLights(); i++) {
         bgR.addLight(this.lightSet.getLightAt(i));
     }
     this.background = new GameObject(bgR);
     
+    
     console.log(this.lightSet.numLights());
     for (var i = 0; i < this.lightSet.numLights(); i++) {
-        var light = this.lightSet.getLightAt(i)
+        var light = this.lightSet.getLightAt(i);
         for (var j = 0; j < this.basketSet.length; j++) {
             this.basketSet[j].getRenderable().addLight(light);
         }
     }
+    
+    
+    
+    
     
     this.mTimerText = new FontRenderable("" + Math.round(this.mTimer / 1000));
     this.mTimerText.setColor([1, 1, 1, 0]);
@@ -478,19 +506,19 @@ MyGame.prototype.updateInput = function () {
             this.mPlayer1CatBall.throw();
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Comma)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Left)) {
             //if (this.mPlayer2CatBall.throwAngle < 90) {
                 this.mPlayer2CatBall.throwAngle += this.angleDelta;
             //}
         }
 
-        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.QM)) {
+        if (gEngine.Input.isKeyPressed(gEngine.Input.keys.Right)) {
             //if (this.mPlayer2CatBall.throwAngle > 0) {
                 this.mPlayer2CatBall.throwAngle -= this.angleDelta;
             //}
         }
 
-        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Period)) {
+        if (gEngine.Input.isKeyClicked(gEngine.Input.keys.Down)) {
             this.mPlayer2CatBall.throw();
         }
 
