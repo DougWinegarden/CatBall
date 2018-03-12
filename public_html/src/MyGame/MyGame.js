@@ -268,27 +268,12 @@ MyGame.prototype.initialize = function () {
         this.createPegsStage3();
     }
     
-    //this.createBoundsStage1();
-    //this.createBoundsStage2();
-    //this.createBoundsStage3();
-    //this.createPegsStage1();
-    //this.createBasketsStage1();
-    //this.createBasketsStage2();
-    //this.createBasketsStage3();
-    //this.createPegsStage2();
-    //this.createPegsStage3();
-    /*
-    console.log("OMG: " + gEngine.DefaultResources.getConstColorShader());
-    this.initializeBaskets();
+
+    this.lightSet = new LightSet();
+    this._initializeCatBallLights()
+    this._initializePlayerLights();
+    this._initializeBasketLights();
     
-    for(var i = 0; i < this.basketSet.length; i++){
-        for(var j = 0; i < this.basketSet[i].physicsObjects.length; i++){
-            this.mAllObjs.addToSet(this.basketSet[i].physicsObjects[j]);
-        }
-        
-    }
-    */
-    this._initializeLights1();
     
     var bgR = new IllumRenderable(this.bg, this.bgNormal);
     bgR.setElementPixelPositions(0, 1024, 0, 512);
@@ -304,14 +289,14 @@ MyGame.prototype.initialize = function () {
     
     
     console.log(this.lightSet.numLights());
+    
+    
     for (var i = 0; i < this.lightSet.numLights(); i++) {
         var light = this.lightSet.getLightAt(i);
         for (var j = 0; j < this.basketSet.length; j++) {
             this.basketSet[j].getRenderable().addLight(light);
         }
     }
-    
-    
     
     
     
@@ -414,6 +399,25 @@ MyGame.prototype.updateObjects = function(){
     this.mPlayer2ThrowIndicator.update(this.mPlayer2CatBall);
     this.mPlayer1.updateJumpStatus(this.mAllPhysObjs);
     this.mPlayer2.updateJumpStatus(this.mAllPhysObjs);
+    
+    // updates the catball lights to be on their respective catball
+    this.lightSet.getLightAt(0).setXPos(this.mPlayer1CatBall.getXform().getXPos());
+    this.lightSet.getLightAt(0).setYPos(this.mPlayer1CatBall.getXform().getYPos());
+    
+    this.lightSet.getLightAt(1).setXPos(this.mPlayer2CatBall.getXform().getXPos());
+    this.lightSet.getLightAt(1).setYPos(this.mPlayer2CatBall.getXform().getYPos());
+    
+    this.lightSet.getLightAt(2).setXPos(this.mPlayer1ThrowIndicator.getXform().getXPos());
+    this.lightSet.getLightAt(2).setYPos(this.mPlayer1ThrowIndicator.getXform().getYPos());
+    
+    var p1Angle = this.mPlayer1ThrowIndicator.getXform().getRotationInRad() + Math.PI / 2;
+    this.lightSet.getLightAt(2).setDirection([Math.cos(p1Angle), Math.sin(p1Angle), -1]);
+    
+    this.lightSet.getLightAt(3).setXPos(this.mPlayer2ThrowIndicator.getXform().getXPos());
+    this.lightSet.getLightAt(3).setYPos(this.mPlayer2ThrowIndicator.getXform().getYPos());
+    
+    var p2Angle = this.mPlayer2ThrowIndicator.getXform().getRotationInRad() + Math.PI / 2;
+    this.lightSet.getLightAt(3).setDirection([Math.cos(p2Angle), Math.sin(p2Angle), -1]);
     
     gEngine.Physics.processCollision(this.mAllPhysObjs, this.mCollisionInfos);
 };
