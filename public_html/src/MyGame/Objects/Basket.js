@@ -18,6 +18,10 @@ function Basket(spriteTexture, normalMap, x, y) {
     //this.aBasket.setColor([1, 1, 1, 0]);
     this.aBasket.getXform().setPosition(x, y);
     this.aBasket.getXform().setSize(8, 4);
+    this.mOriginX = x;
+    this.mFaction = "gray";
+    this.shakeCooldown = 0;
+    
     
     // need to adjust this when the drawing is made
     this.aBasket.setElementPixelPositions(0, 256, 0, 128);
@@ -27,6 +31,7 @@ function Basket(spriteTexture, normalMap, x, y) {
     // 0 = neutral, 1 = red, 2 = blue
     this.color = 0;
     
+    this.mHarmonicFunction = new ShakePosition(1, 0, 4, 30);
     /*
     //this.initializePhysicsObjects();
     this.physicsObjects = [
@@ -71,14 +76,30 @@ Basket.prototype.processHit = function(){
         //this.aBasket.setColor([1, 1, 1, 0]);
     } else 
     */
-    
-    if (this.color == 1) {
+    var xf = this.getXform();
+    if(this.mHarmonicFunction.shakeDone() === true ) {
+        this.getXform().setPosition(this.mOriginX, this.getXform().getYPos());
+    }
+    else if(this.mHarmonicFunction.shakeDone() === false && this.mFaction != "gray") {
+        var delta = this.mHarmonicFunction.getShakeResults();
+        xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
+    }
+    if (this.color == 1 && this.mFaction != "red") {
+        this.mFaction = "red";
+        this.mHarmonicFunction = new ShakePosition(1, 0, 4, 30);
+        var delta = this.mHarmonicFunction.getShakeResults();
+        xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
         this.aBasket.setElementPixelPositions(256, 256 * 2, 0, 128);
         //this.aBasket.setColor([1, 0, 0, 0]);
-    } else if (this.color == 2) {
+    } else if (this.color == 2 && this.mFaction != "blue") {
+        this.mFaction = "blue";
+        this.mHarmonicFunction = new ShakePosition(1, 0, 4, 30);
+        var delta = this.mHarmonicFunction.getShakeResults();
+        xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
         this.aBasket.setElementPixelPositions(256 * 2, 256 * 3, 0, 128);
         //this.aBasket.setColor([0, 0, 1, 0]);
-    } else if(this.color == 0){
+    } else if(this.color == 0 && this.mFaction != "gray"){
+        this.mFaction = "gray";
         this.aBasket.setElementPixelPositions(0, 256, 0, 128);
     }
 }

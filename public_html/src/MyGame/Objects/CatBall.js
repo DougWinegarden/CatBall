@@ -18,6 +18,9 @@ function CatBall(spriteTexture, player){
     this.mCat.getXform().setPosition(pos[0], pos[1] + 4.5);
     this.mCat.getXform().setSize(3.8, 3.8);
     
+    this.mInterpolate = new InterpolateVec2([pos[0], pos[1] + 4.5], 60, 0.05);
+    this.mThrownTimer = 0;
+    
     if(this.player.playerNum == 1){
         this.mCat.setElementPixelPositions(128, 128 * 2, 0, 128);
     } else if(this.player.playerNum == 2){
@@ -60,7 +63,16 @@ CatBall.prototype.update = function () {
         // is there any way to disable physics being calculated?
         this.getXform().setPosition(pos[0], pos[1] + 4.5);
     } else if(this.state == "returning"){
-        
+        this.mThrownTimer++;
+        if(this.mThrownTimer >= 60) {
+            this.state = "held";
+            this.mThrownTimer = 0;
+        }
+        this.mInterpolate.setFinalValue([pos[0], pos[1] + 4.5]);
+        this.mInterpolate.updateInterpolation();
+        var one = this.mInterpolate.getValue()[0];
+        var two = this.mInterpolate.getValue()[1];
+        this.getXform().setPosition(one, two);
     } else {
        GameObject.prototype.update.call(this); 
     }
@@ -91,8 +103,15 @@ CatBall.prototype.throw = function(){
     
     
     if(this.state == "thrown"){
-        this.state = "held";
-    } else {
+        this.state = "returning";
+        this.getXform().incYPosBy(4.5);
+        this.mInterpolate = new InterpolateVec2(this.getXform().getPosition(), 60, 0.05);
+        //this.state = "held";
+    }
+    else if (this.state == "returning") {
+        
+    }
+    else {
         this.state = "thrown";
         var x = Math.cos((this.throwAngle / 180) * Math.PI) * 5;
         var y = Math.sin((this.throwAngle / 180) * Math.PI) * 5;
