@@ -20,7 +20,7 @@ function Basket(spriteTexture, normalMap, x, y) {
     this.aBasket.getXform().setSize(8, 4);
     this.mOriginX = x;
     this.mFaction = "gray";
-    this.shakeCooldown = 0;
+    this.enableShake = false;
     
     
     // need to adjust this when the drawing is made
@@ -44,8 +44,6 @@ gEngine.Core.inheritPrototype(Basket, GameObject);
 
 Basket.prototype.update = function (ball1, ball2) {
     
-    
-    
     //var bound = this.getBBox();
     //var x = this.getXform().getXPos();
     //var y = this.getXform().getYPos()
@@ -60,7 +58,25 @@ Basket.prototype.update = function (ball1, ball2) {
         this.color = 2;
         this.processHit();
     }
-    
+    var xf = this.getXform();
+    if(this.enableShake === true) {
+        if(this.mHarmonicFunction.shakeDone() === true ) {
+            this.enableShake = false;
+            xf.setPosition(this.mOriginX, this.getXform().getYPos());
+        }
+        else if(this.mHarmonicFunction.shakeDone() === false && this.mFaction !== "gray") {
+            if(this.mFaction === "red") {
+                var delta = this.mHarmonicFunction.getShakeResults();
+                xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
+                this.aBasket.setElementPixelPositions(256, 256 * 2, 0, 128);
+            }
+            if(this.mFaction === "blue") {
+                var delta = this.mHarmonicFunction.getShakeResults();
+                xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
+                this.aBasket.setElementPixelPositions(256 * 2, 256 * 3, 0, 128);
+            }
+        }
+    }
 };
 
 Basket.prototype.reset = function(){
@@ -76,16 +92,10 @@ Basket.prototype.processHit = function(){
         //this.aBasket.setColor([1, 1, 1, 0]);
     } else 
     */
-    var xf = this.getXform();
-    if(this.mHarmonicFunction.shakeDone() === true ) {
-        this.getXform().setPosition(this.mOriginX, this.getXform().getYPos());
-    }
-    else if(this.mHarmonicFunction.shakeDone() === false && this.mFaction != "gray") {
-        var delta = this.mHarmonicFunction.getShakeResults();
-        xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
-    }
+    
     if (this.color == 1 && this.mFaction != "red") {
         this.mFaction = "red";
+        this.enableShake = true;
         this.mHarmonicFunction = new ShakePosition(1, 0, 4, 30);
         var delta = this.mHarmonicFunction.getShakeResults();
         xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
@@ -93,6 +103,7 @@ Basket.prototype.processHit = function(){
         //this.aBasket.setColor([1, 0, 0, 0]);
     } else if (this.color == 2 && this.mFaction != "blue") {
         this.mFaction = "blue";
+        this.enableShake = true;
         this.mHarmonicFunction = new ShakePosition(1, 0, 4, 30);
         var delta = this.mHarmonicFunction.getShakeResults();
         xf.setPosition(xf.getXPos() + delta[0], xf.getYPos());
@@ -100,6 +111,7 @@ Basket.prototype.processHit = function(){
         //this.aBasket.setColor([0, 0, 1, 0]);
     } else if(this.color == 0 && this.mFaction != "gray"){
         this.mFaction = "gray";
+        this.enableShake = false;
         this.aBasket.setElementPixelPositions(0, 256, 0, 128);
     }
 }
